@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- TODO: Finish recycler view item -->
+    <data>
+
+        <variable
+            name="note"
+            type="com.github.emresarincioglu.home.model.Note" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textStyle="bold"
+                app:goneIf="@{note.title.blank}"
+                tools:text="Very long note title" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                app:dividerInsetEnd="16dp"
+                app:goneIf="@{note.title.blank}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:minLines="4"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas hendrerit magna mauris, ut fermentum est imperdiet vel. Nulla vel ultricies enim. Nullam sed libero non lorem venenatis gravida. Integer dictum sem non ligula viverra, ut dictum urna gravida. Praesent eget luctus urna. Pellentesque quis metus nec nulla pharetra imperdiet. Interdum. " />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

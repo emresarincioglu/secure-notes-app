@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Content Descriptions -->
+    <eat-comment />
+    <string name="fab_note_cont_desc">Create new note</string>
+    <string name="sb_note_hint">Search note</string>
+</resources>
