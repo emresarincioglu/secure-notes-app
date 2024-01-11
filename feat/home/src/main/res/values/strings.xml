@@ -3,5 +3,8 @@
     <!-- Content Descriptions -->
     <eat-comment />
     <string name="fab_note_cont_desc">Create new note</string>
-    <string name="sb_note_hint">Search note</string>
+
+    <string name="sb_note_hint">Search note…</string>
+    <string name="tv_notes_text">Notes</string>
+    <string name="cv_password_warn_text">You didn\'t create a password. You should create a password to secure your notes. If you don\'t, anyone can read your notes.</string>
 </resources>

@@ -12,14 +12,16 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="?materialCardViewFilledStyle"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        android:padding="4dp">
+        app:contentPadding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,6 +35,7 @@
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@{note.title}"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold"
                 app:goneIf="@{note.title.blank}"
@@ -42,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="8dp"
-                app:dividerInsetEnd="16dp"
                 app:goneIf="@{note.title.blank}" />
 
             <TextView
@@ -51,6 +53,7 @@
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:minLines="4"
+                android:text="@{note.content}"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas hendrerit magna mauris, ut fermentum est imperdiet vel. Nulla vel ultricies enim. Nullam sed libero non lorem venenatis gravida. Integer dictum sem non ligula viverra, ut dictum urna gravida. Praesent eget luctus urna. Pellentesque quis metus nec nulla pharetra imperdiet. Interdum. " />
         </LinearLayout>

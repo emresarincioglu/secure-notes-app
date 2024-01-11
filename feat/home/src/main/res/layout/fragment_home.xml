@@ -18,10 +18,11 @@
             android:id="@+id/rv_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/searchbar_scrolling_view_behavior"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:itemCount="8"
-            tools:listitem="@layout/rv_note_item" />
+            tools:listitem="@layout/rv_note_card_item" />
 
         <!-- TODO: Implement search functionality -->
         <com.google.android.material.appbar.AppBarLayout
@@ -46,6 +47,7 @@
                 android:id="@+id/rv_search_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="15" />
         </com.google.android.material.search.SearchView>
@@ -58,8 +60,10 @@
             android:layout_margin="16dp"
             android:contentDescription="@string/fab_note_cont_desc"
             android:src="@drawable/ic_add_24"
+            app:backgroundTint="?colorTertiaryContainer"
             app:layout_anchor="@id/rv_note"
-            app:layout_anchorGravity="end|bottom" />
+            app:layout_anchorGravity="end|bottom"
+            app:tint="?colorOnTertiaryContainer" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
