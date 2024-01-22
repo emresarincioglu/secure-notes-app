@@ -84,6 +84,8 @@ class NoteRecyclerViewAdapter(
         return notes[noteIndex]
     }
 
+    fun isNote(position: Int) = if (showWarning) position >= 2 else position >= 1
+
     class NoteCardViewHolder(private val binding: RvNoteCardItemBinding) :
         ViewHolder(binding.root) {
 
