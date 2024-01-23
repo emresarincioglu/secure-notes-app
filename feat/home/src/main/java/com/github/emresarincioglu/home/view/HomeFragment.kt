@@ -82,29 +82,27 @@ class HomeFragment : Fragment() {
                 recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
             ): Int {
 
-                val adapter = recyclerView.adapter as NoteRecyclerViewAdapter
-                val itemPosition = viewHolder.adapterPosition
-
-                return if (adapter.isNote(itemPosition)) {
-                    makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
-                } else {
-                    makeMovementFlags(0, 0)
-                }
+                val isNote = viewHolder.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
+                return makeMovementFlags(
+                    if (isNote) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0,
+                    0
+                )
             }
 
             override fun onMove(
                 recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                source: RecyclerView.ViewHolder,
+                destination: RecyclerView.ViewHolder
             ): Boolean {
 
                 val adapter = recyclerView.adapter as NoteRecyclerViewAdapter
-                val from = viewHolder.adapterPosition
-                val to = target.adapterPosition
+                val isSourceNote = source.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
+                val isDestinationNote =
+                    destination.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
 
-                return if (adapter.isNote(from) && adapter.isNote(to)) {
-                    homeViewModel.swapNotes(from, to)
-                    adapter.notifyItemMoved(from, to)
+                return if (isSourceNote && isDestinationNote) {
+                    homeViewModel.swapNotes(source.adapterPosition, destination.adapterPosition)
+                    adapter.notifyItemMoved(source.adapterPosition, destination.adapterPosition)
                     true
                 } else false
             }
@@ -127,6 +125,7 @@ class HomeFragment : Fragment() {
                 recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
+
                 val alphaAnimation = AlphaAnimation(0.5f, 1f).apply {
                     duration = 350
                     fillAfter = true

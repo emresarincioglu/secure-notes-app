@@ -16,9 +16,9 @@ class NoteRecyclerViewAdapter(
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     companion object {
-        private const val ITEM_TYPE_HEADER = 0
-        private const val ITEM_TYPE_WARNING = 1
-        private const val ITEM_TYPE_NOTE = 2
+        const val ITEM_TYPE_HEADER = 0
+        const val ITEM_TYPE_WARNING = 1
+        const val ITEM_TYPE_NOTE = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -79,12 +79,9 @@ class NoteRecyclerViewAdapter(
     override fun getItemCount() = if (showWarning) notes.size + 2 else notes.size + 1
 
     private fun getNote(position: Int): Note {
-
         val noteIndex = if (showWarning) position - 2 else position - 1
         return notes[noteIndex]
     }
-
-    fun isNote(position: Int) = if (showWarning) position >= 2 else position >= 1
 
     class NoteCardViewHolder(private val binding: RvNoteCardItemBinding) :
         ViewHolder(binding.root) {
