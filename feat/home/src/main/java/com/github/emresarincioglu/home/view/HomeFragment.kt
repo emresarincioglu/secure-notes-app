@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,8 +14,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.emresarincioglu.home.NoteRecyclerViewAdapter
+import com.github.emresarincioglu.home.SearchResultRecyclerViewAdapter
 import com.github.emresarincioglu.home.databinding.FragmentHomeBinding
 import com.github.emresarincioglu.home.viewmodel.HomeViewModel
+import com.google.android.material.search.SearchView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -48,7 +51,8 @@ class HomeFragment : Fragment() {
 
     private fun setupViews() {
 
-        setupRecyclerViews()
+        setupNoteRecyclerView()
+        setupNoteSearchView()
         binding.fabNote.setOnClickListener {
             // TODO: Navigate to new note screen
         }
@@ -58,8 +62,8 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 homeViewModel.uiState.collectLatest { uiState ->
+
                     binding.rvNote.adapter = NoteRecyclerViewAdapter(
                         notes = uiState.notes,
                         showWarning = !uiState.isCreatedPassword,
@@ -70,12 +74,19 @@ class HomeFragment : Fragment() {
                             // TODO: Show biometric prompt
                         }
                     )
+
+                    binding.rvSearchResult.adapter = SearchResultRecyclerViewAdapter(
+                        results = uiState.searchResults,
+                        onResultClick = { noteTitle ->
+                            // TODO: Get notes from database by noteTitle
+                        }
+                    )
                 }
             }
         }
     }
 
-    private fun setupRecyclerViews() {
+    private fun setupNoteRecyclerView() {
 
         val swapNotesCallback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
@@ -83,10 +94,8 @@ class HomeFragment : Fragment() {
             ): Int {
 
                 val isNote = viewHolder.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
-                return makeMovementFlags(
-                    if (isNote) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0,
-                    0
-                )
+                val dragFlags = if (isNote) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
+                return makeMovementFlags(dragFlags, 0)
             }
 
             override fun onMove(
@@ -133,6 +142,41 @@ class HomeFragment : Fragment() {
                 viewHolder.itemView.startAnimation(alphaAnimation)
             }
         }
+
         ItemTouchHelper(swapNotesCallback).attachToRecyclerView(binding.rvNote)
+    }
+
+    private fun setupNoteSearchView() {
+
+        // On search view visibility change
+        binding.svNote.addTransitionListener { searchView, previousState, newState ->
+
+            if (newState == SearchView.TransitionState.SHOWING) {
+                binding.fabNote.hide()
+            } else if (newState == SearchView.TransitionState.HIDDEN) {
+                binding.sbNote.setText(binding.svNote.text)
+                binding.fabNote.show()
+
+                if (binding.svNote.text.isBlank()) {
+                    homeViewModel.getNotes()
+                }
+            }
+        }
+
+        // On query text change
+        binding.svNote.editText.addTextChangedListener { query ->
+            homeViewModel.getSearchResults(query.toString())
+        }
+
+        // On query submit
+        binding.svNote.editText.setOnEditorActionListener { view, actionId, keyEvent ->
+
+            val query = binding.svNote.text.toString()
+            if (query.isNotBlank()) {
+                homeViewModel.getNotes(query)
+            }
+            binding.svNote.hide()
+            true
+        }
     }
 }

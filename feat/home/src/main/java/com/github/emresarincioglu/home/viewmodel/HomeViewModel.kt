@@ -18,4 +18,21 @@ class HomeViewModel : ViewModel() {
             // TODO: Swap notes in database
         }
     }
+
+    fun getNotes() {
+        // TODO: Get all notes
+    }
+
+    fun getNotes(query: String) {
+        // TODO: Get notes by query
+    }
+
+    fun getSearchResults(query: String) {
+
+        if (query.isBlank()) {
+            _uiState.value = _uiState.value.copy(searchResults = emptyList())
+        } else {
+            // TODO: Get search results by query
+        }
+    }
 }
