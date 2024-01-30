@@ -24,7 +24,6 @@
             tools:itemCount="8"
             tools:listitem="@layout/rv_note_card_item" />
 
-        <!-- TODO: Implement search functionality -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -43,7 +42,6 @@
             android:hint="@string/sb_note_hint"
             app:layout_anchor="@id/sb_note">
 
-            <!-- TODO: Implement search result rv -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search_result"
                 android:layout_width="match_parent"
