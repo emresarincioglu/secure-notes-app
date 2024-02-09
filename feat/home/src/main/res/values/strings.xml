@@ -1,10 +1,29 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Content Descriptions -->
     <eat-comment />
     <string name="fab_note_cont_desc">Create new note</string>
 
-    <string name="sb_note_hint">Search note…</string>
+    <!-- Headers -->
+    <eat-comment />
     <string name="tv_notes_text">Notes</string>
+
+    <!-- Hints -->
+    <eat-comment />
+    <string name="sb_note_hint" tools:ignore="TypographyEllipsis">Search note...</string>
+    <string name="et_note_title_hint">Note Title</string>
+    <string name="et_note_content_hint" tools:ignore="TypographyEllipsis">Your note...</string>
+
+    <!-- Menu Items -->
+    <eat-comment />
+    <string name="menu_item_save_title">Save</string>
+
+    <!-- Dialogs -->
+    <eat-comment />
+    <string name="dialog_discard_note_title">Discard note?</string>
+    <string name="dialog_discard_note_message">The changes you made will be deleted. Are you sure?</string>
+
+    <!-- Card Views -->
+    <eat-comment />
     <string name="cv_password_warn_text">You didn\'t create a password. You should create a password to secure your notes. If you don\'t, anyone can read your notes.</string>
 </resources>

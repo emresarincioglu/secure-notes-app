@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NoteAppBarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="tint">?colorOnPrimary</item>
+    </style>
+</resources>

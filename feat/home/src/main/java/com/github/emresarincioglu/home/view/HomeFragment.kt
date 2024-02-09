@@ -11,16 +11,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.emresarincioglu.home.NoteRecyclerViewAdapter
+import com.github.emresarincioglu.home.R
 import com.github.emresarincioglu.home.SearchResultRecyclerViewAdapter
 import com.github.emresarincioglu.home.databinding.FragmentHomeBinding
 import com.github.emresarincioglu.home.viewmodel.HomeViewModel
 import com.google.android.material.search.SearchView
+import com.google.android.material.transition.Hold
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +31,11 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel by viewModels<HomeViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = Hold()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,8 +61,15 @@ class HomeFragment : Fragment() {
 
         setupNoteRecyclerView()
         setupNoteSearchView()
+
         binding.fabNote.setOnClickListener {
-            // TODO: Navigate to new note screen
+            val extras = FragmentNavigatorExtras(binding.fabNote to "fab_to_add_note")
+            findNavController().navigate(
+                R.id.action_homeFragment_to_addNoteFragment,
+                null,
+                null,
+                extras
+            )
         }
     }
 
