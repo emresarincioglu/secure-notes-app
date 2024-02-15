@@ -56,7 +56,6 @@ class AddNoteFragment : Fragment() {
     private fun setupViews() {
 
 
-
         binding.appBar.setNavigationOnClickListener {
 
             if (binding.etNoteTitle.hasFocus()) {
@@ -69,14 +68,20 @@ class AddNoteFragment : Fragment() {
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
 
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.dialog_discard_note_title))
-                .setMessage(getString(R.string.dialog_discard_note_message))
-                .setNegativeButton(resources.getString(android.R.string.cancel), null)
-                .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, which ->
-                    findNavController().navigateUp()
-                }
-                .show()
+            val isEdited =
+                binding.etNoteTitle.text.isNotEmpty() || binding.etNoteContent.text.isNotEmpty()
+            if (isEdited) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.dialog_discard_note_title))
+                    .setMessage(getString(R.string.dialog_discard_note_message))
+                    .setNegativeButton(resources.getString(android.R.string.cancel), null)
+                    .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, which ->
+                        findNavController().navigateUp()
+                    }
+                    .show()
+            } else {
+                findNavController().navigateUp()
+            }
         }
 
         binding.appBar.setOnMenuItemClickListener { menuItem ->
