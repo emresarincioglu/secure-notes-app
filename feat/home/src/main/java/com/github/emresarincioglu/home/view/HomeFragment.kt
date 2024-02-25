@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
+import androidx.core.view.doOnPreDraw
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +15,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.github.emresarincioglu.home.DataBindingFragment
 import com.github.emresarincioglu.home.NoteRecyclerViewAdapter
 import com.github.emresarincioglu.home.R
 import com.github.emresarincioglu.home.SearchResultRecyclerViewAdapter
@@ -25,10 +26,7 @@ import com.google.android.material.transition.Hold
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
@@ -37,24 +35,26 @@ class HomeFragment : Fragment() {
         exitTransition = Hold()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
-            viewModel = homeViewModel
-            lifecycleOwner = viewLifecycleOwner
-        }
+        inflateBinding(R.layout.fragment_home, inflater, container, false)
+        binding.viewModel = homeViewModel
 
         setupViews()
         observeUiState()
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setupViews() {
@@ -63,12 +63,9 @@ class HomeFragment : Fragment() {
         setupNoteSearchView()
 
         binding.fabNote.setOnClickListener {
-            val extras = FragmentNavigatorExtras(binding.fabNote to "fab_to_add_note")
             findNavController().navigate(
-                R.id.action_homeFragment_to_addNoteFragment,
-                null,
-                null,
-                extras
+                HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(),
+                FragmentNavigatorExtras(binding.fabNote to binding.fabNote.transitionName)
             )
         }
     }
@@ -82,8 +79,15 @@ class HomeFragment : Fragment() {
                     binding.rvNote.adapter = NoteRecyclerViewAdapter(
                         notes = uiState.notes,
                         showWarning = !uiState.isCreatedPassword,
-                        onNoteClick = { note ->
-                            // TODO: Navigate to note screen
+                        onNoteClick = { note, cvNote ->
+                            findNavController().navigate(
+                                directions = HomeFragmentDirections.actionHomeFragmentToNoteFragment(
+                                    noteId = note.noteId,
+                                    noteTitle = note.title,
+                                    noteContent = note.content
+                                ),
+                                navigatorExtras = FragmentNavigatorExtras(cvNote to cvNote.transitionName)
+                            )
                         },
                         onWarningClick = {
                             // TODO: Show biometric prompt

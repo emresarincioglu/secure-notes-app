@@ -2,5 +2,6 @@
 <resources>
     <style name="NoteAppBarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="tint">?colorOnPrimary</item>
+        <item name="iconTint">?colorOnPrimary</item>
     </style>
 </resources>

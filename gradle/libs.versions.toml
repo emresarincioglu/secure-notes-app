@@ -8,7 +8,7 @@ core = "1.12.0"
 material = "1.11.0"
 gradle = "8.2.2"
 kotlin = "1.9.10"
-navigation = "2.7.6"
+navigation = "2.7.7"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -18,14 +18,16 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitExt" 
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 junit = { module = "junit:junit", version.ref = "junit" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
-androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-androidx-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+navigation-safe-args = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "gradle" }
 android-application = { id = "com.android.application", version.ref = "gradle" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+navigation-safe-args-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
 [bundles]
-navigation = ["androidx-navigation-fragment", "androidx-navigation-ui"]
+navigation = ["navigation-fragment", "navigation-ui"]

@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.emresarincioglu.home.databinding.RvNoteCardItemBinding
 import com.github.emresarincioglu.home.model.Note
+import com.google.android.material.card.MaterialCardView
 
 class NoteRecyclerViewAdapter(
     private val notes: List<Note>,
     private val showWarning: Boolean,
-    private val onNoteClick: (note: Note) -> Unit,
+    private val onNoteClick: (note: Note, cvNote: MaterialCardView) -> Unit,
     private val onWarningClick: (view: View) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -86,10 +87,13 @@ class NoteRecyclerViewAdapter(
     class NoteCardViewHolder(private val binding: RvNoteCardItemBinding) :
         ViewHolder(binding.root) {
 
-        fun bind(note: Note, onNoteClick: (note: Note) -> Unit) {
+        fun bind(
+            note: Note,
+            onNoteClick: (note: Note, cvNote: MaterialCardView) -> Unit
+        ) {
             binding.note = note
             binding.cvNote.setOnClickListener {
-                onNoteClick(note)
+                onNoteClick(note, binding.cvNote)
             }
         }
     }

@@ -8,27 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.github.emresarincioglu.home.DataBindingFragment
 import com.github.emresarincioglu.home.R
-import com.github.emresarincioglu.home.databinding.FragmentAddNoteBinding
-import com.github.emresarincioglu.home.viewmodel.AddNoteViewModel
+import com.github.emresarincioglu.home.databinding.FragmentNoteBinding
+import com.github.emresarincioglu.home.viewmodel.NoteViewModel
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 
+class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
 
-class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
+    private val noteViewModel by viewModels<NoteViewModel>()
 
-    private val addNoteViewModel by viewModels<AddNoteViewModel>()
+    private val args by navArgs<NoteFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            setPathMotion(MaterialArcMotion())
+            scrimColor = Color.TRANSPARENT
             setAllContainerColors(
                 MaterialColors.getColor(
                     requireContext(),
@@ -43,8 +45,8 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        inflateBinding(R.layout.fragment_add_note, inflater, container, false)
-        binding.viewModel = addNoteViewModel
+        inflateBinding(R.layout.fragment_note, inflater, container, false)
+        binding.viewModel = noteViewModel
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             navigateToHomeScreen()
@@ -56,16 +58,50 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
 
     private fun setupViews() {
 
+        noteViewModel.setNoteId(args.noteId)
+        with(noteViewModel.uiState.value) {
+            title = args.noteTitle
+            content = args.noteContent
+        }
+        binding.executePendingBindings()
+
+        binding.etNoteTitle.doAfterTextChanged {
+            noteViewModel.setIsEdited(true)
+        }
+        binding.etNoteContent.doAfterTextChanged {
+            noteViewModel.setIsEdited(true)
+        }
+
+        setupAppBar()
+    }
+
+    private fun setupAppBar() {
+
         binding.appBar.setNavigationOnClickListener {
             navigateToHomeScreen()
         }
 
         binding.appBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_item_save -> {
+                    TODO("Save changes to database")
+                    true
+                }
 
-            if (menuItem.itemId == R.id.menu_item_save) {
-                TODO("Add note to database")
-                true
-            } else false
+                R.id.menu_item_delete -> {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.dialog_delete_note_title))
+                        .setMessage(getString(R.string.dialog_delete_note_message))
+                        .setNegativeButton(resources.getString(android.R.string.cancel), null)
+                        .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, which ->
+                            TODO("Delete note from database")
+                        }
+                        .show()
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
@@ -82,9 +118,7 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
 
     private fun warnAndNavigateUp() {
 
-        val isEdited =
-            binding.etNoteTitle.text.isNotEmpty() || binding.etNoteContent.text.isNotEmpty()
-        if (isEdited) {
+        if (noteViewModel.uiState.value.isEdited) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_discard_note_title))
                 .setMessage(getString(R.string.dialog_discard_note_message))
