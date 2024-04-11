@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.github.emresarincioglu.home.viewmodel.LoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- TODO: Add logo -->
+        <!-- TODO: Add helper text and change tint of indicator to indicate password strength -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_password"
+            style="?textInputFilledStyle"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tf_password_hint"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:text="@={viewModel.uiState.passwordInput}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_login_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/or"
+            android:textStyle="bold"
+            app:goneIf="@{!viewModel.uiState.biometricsEnabled}" />
+
+        <Button
+            android:id="@+id/btn_biometrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_biometrics_text"
+            app:goneIf="@{!viewModel.uiState.biometricsEnabled}" />
+    </LinearLayout>
+</layout>

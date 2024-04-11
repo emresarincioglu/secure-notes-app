@@ -2,6 +2,6 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="16dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
     android:text="@string/tv_notes_text" />

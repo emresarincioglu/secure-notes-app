@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.emresarincioglu.home.DataBindingFragment
@@ -29,6 +30,7 @@ import kotlinx.coroutines.launch
 class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val args by navArgs<HomeFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +80,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
                     binding.rvNote.adapter = NoteRecyclerViewAdapter(
                         notes = uiState.notes,
-                        showWarning = !uiState.isCreatedPassword,
+                        showWarning = !args.isPasswordCreated,
                         onNoteClick = { note, cvNote ->
                             findNavController().navigate(
                                 directions = HomeFragmentDirections.actionHomeFragmentToNoteFragment(

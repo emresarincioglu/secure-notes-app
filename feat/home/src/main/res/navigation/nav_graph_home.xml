@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -14,6 +14,8 @@
         <action
             android:id="@+id/action_homeFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
+        <argument android:name="is_password_created"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -35,5 +37,16 @@
         <argument
             android:name="note_content"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.github.emresarincioglu.home.view.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
