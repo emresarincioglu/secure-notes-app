@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.emresarincioglu.home"
+    namespace = "com.github.emresarincioglu.securenotes.feat.home"
     compileSdk = 34
 
     defaultConfig {
@@ -41,7 +41,6 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.biometric)
 
     implementation(libs.bundles.navigation)
 
@@ -49,5 +48,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
 }

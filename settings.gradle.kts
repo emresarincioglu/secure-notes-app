@@ -15,5 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Secure Notes"
 include(":app")
+include(":core:ui")
 include(":feat:home")
-include(":core:designsystem")
+include(":feat:settings")
+include(":feat:authentication")

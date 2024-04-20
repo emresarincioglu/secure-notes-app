@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Errors -->
+    <eat-comment />
+    <string name="error_password_incorrect">Password is incorrect.</string>
+    <string name="error_exceed_login_attempt_limit">Too many incorrect login attempt.</string>
+    <string name="error_biometric_authentication_failed">Authentication failed</string>
+    <string name="error_setup_biometric_data">You should set up biometric data</string>
+
+    <!-- Toasts -->
+    <eat-comment />
+    <string name="toast_enroll_biometric">Enroll biometric data</string>
+
+    <!-- Dialogs -->
+    <eat-comment />
+    <string name="dialog_biometric_title">Biometric login</string>
+    <string name="dialog_biometric_subtitle">Log in using your biometric data or screen lock</string>
+
+    <!-- Text Fields -->
+    <eat-comment />
+    <string name="tf_password_hint">Password</string>
+
+    <!-- Buttons -->
+    <eat-comment />
+    <string name="btn_login_text">Log in</string>
+    <string name="btn_alternative_login_text">Use biometrics</string>
+
+    <!-- Common Words -->
+    <eat-comment />
+    <string name="or">Or</string>
+</resources>

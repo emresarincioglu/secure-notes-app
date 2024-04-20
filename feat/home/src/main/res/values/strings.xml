@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Content Descriptions -->
     <eat-comment />
     <string name="fab_note_cont_desc">Create new note</string>
@@ -23,6 +22,7 @@
     <eat-comment />
     <string name="menu_item_save_title">Save</string>
     <string name="menu_item_delete_title">Delete</string>
+    <string name="menu_item_settings_title">Settings</string>
 
     <!-- Dialogs -->
     <eat-comment />
@@ -30,34 +30,8 @@
     <string name="dialog_discard_note_message">The changes you made will be deleted. Are you sure?</string>
     <string name="dialog_delete_note_title">Delete note?</string>
     <string name="dialog_delete_note_message">Are you sure you want to delete this note? The operation cannot be undone.</string>
-    <string name="dialog_biometric_title">Biometric login</string>
-    <string name="dialog_biometric_subtitle">Login using your biometric data or screen lock</string>
 
     <!-- Card Views -->
     <eat-comment />
     <string name="cv_password_warn_text">You didn\'t create a password. You should create a password to secure your notes. If you don\'t, anyone can read your notes.</string>
-
-    <!-- Common Words -->
-    <eat-comment />
-    <string name="or">Or</string>
-
-    <!-- Text Fields -->
-    <eat-comment />
-    <string name="tf_password_hint">Password</string>
-
-    <!-- Buttons -->
-    <eat-comment />
-    <string name="btn_login_text">Login</string>
-    <string name="btn_biometrics_text">Use biometrics</string>
-
-    <!-- Toasts -->
-    <eat-comment />
-    <string name="toast_enroll_biometric">Enroll biometric data</string>
-
-    <!-- Errors -->
-    <eat-comment />
-    <string name="error_password_incorrect">Password is incorrect.</string>
-    <string name="error_exceed_login_attempt_limit">Too many incorrect login attempt.</string>
-    <string name="error_biometric_authentication_failed">Authentication failed</string>
-    <string name="error_setup_biometric_data">You should set up biometric data</string>
 </resources>

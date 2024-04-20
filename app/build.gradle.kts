@@ -52,6 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(project(":feat:authentication"))
     implementation(project(":feat:home"))
-    implementation(project(":core:designsystem"))
+    implementation(project(":feat:settings"))
+    implementation(project(":core:ui"))
 }

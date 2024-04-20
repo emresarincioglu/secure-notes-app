@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.emresarincioglu.home.viewmodel.HomeViewModel" />
+            type="com.github.emresarincioglu.securenotes.feat.home.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,6 +32,7 @@
             <com.google.android.material.search.SearchBar
                 android:id="@+id/sb_note"
                 android:layout_width="match_parent"
+                app:menu="@menu/menu_home_app_bar"
                 android:layout_height="wrap_content"
                 android:hint="@string/sb_note_hint" />
         </com.google.android.material.appbar.AppBarLayout>
