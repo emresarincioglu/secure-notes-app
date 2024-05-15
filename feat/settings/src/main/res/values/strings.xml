@@ -1,0 +1,29 @@
+<resources>
+    <!-- Titles -->
+    <eat-comment />
+    <string name="category_authentication_title">Authentication</string>
+    <string name="category_security_title">Security</string>
+    <string name="password_title">Password</string>
+    <string name="biometric_title">Biometric login</string>
+    <string name="screen_lock_title">Screen lock login</string>
+    <string name="log_out_title">Log out</string>
+    <string name="session_timeout_title">Session timeout</string>
+
+    <!-- Summaries -->
+    <eat-comment />
+    <string name="default_summary">Not set</string>
+    <string name="biometric_summary">Use fingerprint or face to log in</string>
+    <string name="screen_lock_summary">Use screen lock to log in</string>
+    <string name="attempt_limit_summary">Login attempt limit before destroying notes: %d</string>
+    <string name="session_timeout_summary">Timeout before ending session: %d minutes</string>
+
+    <!-- Dialogs -->
+    <eat-comment />
+    <string name="dialog_attempt_limit_title">Login attempt limit</string>
+    <string name="dialog_log_out_title">Log out</string>
+    <string name="dialog_log_out_message">Are you sure? You will not be able to access your notes until you log in.</string>
+
+    <!-- Common words -->
+    <eat-comment />
+    <string name="minutes">minutes</string>
+</resources>

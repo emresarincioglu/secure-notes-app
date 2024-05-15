@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.github.emresarincioglu.securenotes.feat.settings.viewmodel.SettingsViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_authentication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_space_start"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="@dimen/screen_space_end"
+                android:text="@string/category_authentication_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?colorSecondary"
+                tools:textColor="@android:color/holo_blue_dark" />
+
+            <TextView
+                android:id="@+id/tv_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end"
+                android:text="@string/password_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+            <RelativeLayout
+                android:id="@+id/rl_biometric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end">
+
+                <TextView
+                    android:id="@+id/tv_biometric_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/sw_biometric"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/biometric_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_biometric_title"
+                    android:layout_alignStart="@id/tv_biometric_title"
+                    android:layout_alignEnd="@id/tv_biometric_title"
+                    android:layout_marginTop="4dp"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/biometric_summary" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_biometric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@={viewModel.uiState.biometricEnabled}"
+                    android:layout_alignParentEnd="true"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setBiometricLogin(isChecked)}" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_screen_lock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end">
+
+                <TextView
+                    android:id="@+id/tv_screen_lock_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/sw_screen_lock"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/screen_lock_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_screen_lock_title"
+                    android:layout_alignStart="@id/tv_screen_lock_title"
+                    android:layout_alignEnd="@id/tv_screen_lock_title"
+                    android:layout_marginTop="4dp"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/screen_lock_summary" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_screen_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:checked="@={viewModel.uiState.screenLockEnabled}"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setScreenLockLogin(isChecked)}" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_log_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:focusable="true"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end"
+                android:text="@string/log_out_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+            <TextView
+                android:id="@+id/tv_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_space_start"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/screen_space_end"
+                android:text="@string/category_security_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?colorSecondary"
+                tools:textColor="@android:color/holo_blue_dark" />
+
+            <LinearLayout
+                android:id="@+id/ll_attempt_limit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/dialog_attempt_limit_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@{viewModel.uiState.loginAttemptLimit == 0 ? @string/default_summary : @string/attempt_limit_summary(viewModel.uiState.loginAttemptLimit)}"
+                    tools:text="Not set" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_session_timeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingVertical="16dp"
+                android:paddingStart="@dimen/screen_space_start"
+                android:paddingEnd="@dimen/screen_space_end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@string/session_timeout_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:text="@{@string/session_timeout_summary(viewModel.uiState.sessionTimeout)}"
+                    tools:text="1 minute" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

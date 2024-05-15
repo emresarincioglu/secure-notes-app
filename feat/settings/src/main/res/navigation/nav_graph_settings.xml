@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.github.emresarincioglu.securenotes.feat.settings.SettingsFragment"
+        android:name="com.github.emresarincioglu.securenotes.feat.settings.view.SettingsFragment"
         android:label="Settings">
 
         <argument

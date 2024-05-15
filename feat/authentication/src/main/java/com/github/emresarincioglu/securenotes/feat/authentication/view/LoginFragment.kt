@@ -69,16 +69,12 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                         )
                     }
 
-                    biometricAuthenticators = if (uiState.biometricLoginEnabled) {
-                        biometricAuthenticators or BIOMETRIC_STRONG
-                    } else {
-                        biometricAuthenticators and BIOMETRIC_STRONG.inv()
+                    biometricAuthenticators = 0
+                    if (uiState.biometricLoginEnabled) {
+                        biometricAuthenticators = BIOMETRIC_STRONG
                     }
-
-                    biometricAuthenticators = if (uiState.screenLockLoginEnabled) {
-                        biometricAuthenticators or DEVICE_CREDENTIAL
-                    } else {
-                        biometricAuthenticators and DEVICE_CREDENTIAL.inv()
+                    if (uiState.screenLockLoginEnabled) {
+                        biometricAuthenticators = biometricAuthenticators or DEVICE_CREDENTIAL
                     }
                 }
             }

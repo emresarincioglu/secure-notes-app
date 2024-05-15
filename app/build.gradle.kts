@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
 
     implementation(libs.bundles.navigation)
 
@@ -52,8 +51,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":feat:authentication"))
+    implementation(project(":core:ui"))
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
-    implementation(project(":core:ui"))
+    implementation(project(":feat:authentication"))
 }

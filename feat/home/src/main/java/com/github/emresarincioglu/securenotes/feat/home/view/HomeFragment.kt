@@ -31,11 +31,6 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private val args by navArgs<HomeFragmentArgs>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        exitTransition = Hold()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,12 +60,14 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
         binding.sbNote.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.menu_item_settings) {
+                exitTransition = null
                 findNavController().navigate(R.id.action_homeFragment_to_settingsGraph)
                 true
             } else false
         }
 
         binding.fabNote.setOnClickListener {
+            exitTransition = Hold()
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(),
                 FragmentNavigatorExtras(binding.fabNote to binding.fabNote.transitionName)
@@ -88,6 +85,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                         notes = uiState.notes,
                         showWarning = !args.isPasswordCreated,
                         onNoteClick = { note, cvNote ->
+                            exitTransition = Hold()
                             findNavController().navigate(
                                 directions = HomeFragmentDirections.actionHomeFragmentToNoteFragment(
                                     noteId = note.noteId,
@@ -98,6 +96,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                             )
                         },
                         onWarningClick = {
+                            exitTransition = null
                             findNavController().navigate(
                                 R.id.action_homeFragment_to_settingsGraph,
                                 args = Bundle().apply {
