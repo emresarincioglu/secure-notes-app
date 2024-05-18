@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.github.emresarincioglu.securenotes"
+    namespace = "com.example.securenotes"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.github.emresarincioglu.securenotes"
+        applicationId = "com.example.securenotes"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

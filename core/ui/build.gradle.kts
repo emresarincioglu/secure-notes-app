@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.emresarincioglu.securenotes.core.ui"
+    namespace = "com.example.securenotes.core.ui"
     compileSdk = 34
 
     defaultConfig {

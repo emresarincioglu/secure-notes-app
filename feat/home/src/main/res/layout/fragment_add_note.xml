@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.emresarincioglu.securenotes.feat.home.viewmodel.AddNoteViewModel" />
+            type="com.example.securenotes.feat.home.viewmodel.AddNoteViewModel" />
     </data>
 
     <LinearLayout

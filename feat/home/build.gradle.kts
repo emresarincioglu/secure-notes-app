@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.emresarincioglu.securenotes.feat.home"
+    namespace = "com.example.securenotes.feat.home"
     compileSdk = 34
 
     defaultConfig {
@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.github.emresarincioglu.securenotes.feat.authentication.view.LoginFragment"
+        android:name="com.example.securenotes.feat.authentication.view.LoginFragment"
         android:label="Login">
 
         <action

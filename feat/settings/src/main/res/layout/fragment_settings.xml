@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.emresarincioglu.securenotes.feat.settings.viewmodel.SettingsViewModel" />
+            type="com.example.securenotes.feat.settings.viewmodel.SettingsViewModel" />
     </data>
 
     <ScrollView

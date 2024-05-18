@@ -7,7 +7,7 @@
 
         <variable
             name="note"
-            type="com.github.emresarincioglu.securenotes.feat.home.model.Note" />
+            type="com.example.securenotes.feat.home.model.Note" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
