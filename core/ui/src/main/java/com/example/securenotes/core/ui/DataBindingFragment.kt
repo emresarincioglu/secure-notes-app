@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment
  * @param T Data binding class.
  */
 open class DataBindingFragment<T : ViewDataBinding> : Fragment() {
-
     private var _binding: T? = null
     protected val binding get() = _binding!!
 

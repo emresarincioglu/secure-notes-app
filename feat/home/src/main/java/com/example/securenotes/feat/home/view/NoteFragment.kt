@@ -21,29 +21,30 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 
 class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
-
     private val noteViewModel by viewModels<NoteViewModel>()
     private val args by navArgs<NoteFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(
-                MaterialColors.getColor(
-                    requireContext(),
-                    com.google.android.material.R.attr.colorSurface,
-                    Color.TRANSPARENT
+        sharedElementEnterTransition =
+            MaterialContainerTransform().apply {
+                scrimColor = Color.TRANSPARENT
+                setAllContainerColors(
+                    MaterialColors.getColor(
+                        requireContext(),
+                        com.google.android.material.R.attr.colorSurface,
+                        Color.TRANSPARENT
+                    )
                 )
-            )
-        }
+            }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-
         inflateBinding(R.layout.fragment_note, inflater, container, false)
         binding.viewModel = noteViewModel
 
@@ -56,11 +57,15 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     }
 
     private fun setupViews() {
+        val args = requireArguments()
+        val noteId = args.getInt(getString(R.string.fragment_note_arg_note_id))
+        val noteTitle = args.getString(getString(R.string.fragment_note_arg_note_title))!!
+        val noteContent = args.getString(getString(R.string.fragment_note_arg_note_content))!!
 
-        noteViewModel.setNoteId(args.noteId)
+        noteViewModel.setNoteId(noteId)
         with(noteViewModel.uiState.value) {
-            title = args.noteTitle
-            content = args.noteContent
+            title = noteTitle
+            content = noteContent
         }
         binding.executePendingBindings()
 
@@ -75,7 +80,6 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     }
 
     private fun setupAppBar() {
-
         binding.appBar.setNavigationOnClickListener {
             navigateToHomeScreen()
         }
@@ -105,7 +109,6 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     }
 
     private fun navigateToHomeScreen() {
-
         activity?.currentFocus?.clearFocus()
 
         val inputMethodManager =
@@ -116,7 +119,6 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     }
 
     private fun warnAndNavigateUp() {
-
         if (noteViewModel.uiState.value.isEdited) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_discard_note_title))

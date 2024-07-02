@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationUtils
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -29,7 +29,6 @@ import kotlinx.coroutines.launch
 class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
-    private val args by navArgs<HomeFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,9 +40,10 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-
         inflateBinding(R.layout.fragment_home, inflater, container, false)
         binding.viewModel = homeViewModel
 
@@ -54,7 +54,6 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     }
 
     private fun setupViews() {
-
         setupNoteRecyclerView()
         setupNoteSearchView()
 
@@ -63,13 +62,17 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                 exitTransition = null
                 findNavController().navigate(R.id.action_homeFragment_to_settingsGraph)
                 true
-            } else false
+            } else {
+                false
+            }
         }
 
         binding.fabNote.setOnClickListener {
             exitTransition = Hold()
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(),
+                R.id.action_homeFragment_to_addNoteFragment,
+                args = null,
+                navOptions = null,
                 FragmentNavigatorExtras(binding.fabNote to binding.fabNote.transitionName)
             )
         }
@@ -106,12 +109,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                         }
                     )
 
-                    binding.rvSearchResult.adapter = SearchResultRecyclerViewAdapter(
-                        results = uiState.searchResults,
-                        onResultClick = { noteTitle ->
-                            // TODO: Get notes from database by noteTitle
-                        }
-                    )
+                    setupRecyclerViewAdapters(uiState)
                 }
             }
         }
@@ -121,9 +119,9 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
         val swapNotesCallback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
-                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
             ): Int {
-
                 val isNote = viewHolder.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
                 val dragFlags = if (isNote) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
                 return makeMovementFlags(dragFlags, 0)
@@ -134,7 +132,6 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                 source: RecyclerView.ViewHolder,
                 destination: RecyclerView.ViewHolder
             ): Boolean {
-
                 val adapter = recyclerView.adapter as NoteRecyclerViewAdapter
                 val isSourceNote = source.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
                 val isDestinationNote =
@@ -144,37 +141,87 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                     homeViewModel.swapNotes(source.adapterPosition, destination.adapterPosition)
                     adapter.notifyItemMoved(source.adapterPosition, destination.adapterPosition)
                     true
-                } else false
+                } else {
+                    false
+                }
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
 
                 if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                    val alphaAnimation = AlphaAnimation(1f, 0.5f).apply {
-                        duration = 250
-                        fillAfter = true
-                    }
-                    viewHolder?.itemView?.startAnimation(alphaAnimation)
+                    viewHolder?.itemView?.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.opaque_to_translucent).apply {
+                            fillAfter = true
+                        }
+                    )
                 }
             }
 
             override fun clearView(
-                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
 
-                val alphaAnimation = AlphaAnimation(0.5f, 1f).apply {
-                    duration = 350
-                    fillAfter = true
-                }
-                viewHolder.itemView.startAnimation(alphaAnimation)
+                viewHolder.itemView.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.translucent_to_opaque).apply {
+                        fillAfter = true
+                    }
+                )
             }
         }
 
         ItemTouchHelper(swapNotesCallback).attachToRecyclerView(binding.rvNote)
+    }
+
+    private fun setupRecyclerViewAdapters(uiState: HomeScreenUiState) {
+
+        binding.rvNote.adapter = NoteRecyclerViewAdapter(
+            notes = uiState.notes,
+            showWarning = !uiState.isPasswordCreated,
+            onNoteClick = { note, cvNote ->
+
+                exitTransition = Hold()
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_noteFragment,
+                    args = Bundle().apply {
+                        putInt(
+                            getString(R.string.fragment_note_arg_note_id),
+                            note.noteId
+                        )
+                        putString(
+                            getString(R.string.fragment_note_arg_note_title),
+                            note.title
+                        )
+                        putString(
+                            getString(R.string.fragment_note_arg_note_content),
+                            note.content
+                        )
+                    },
+                    navOptions = null,
+                    FragmentNavigatorExtras(cvNote to cvNote.transitionName)
+                )
+            },
+            onWarningClick = {
+                exitTransition = null
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_settingsGraph,
+                    args = Bundle().apply {
+                        putBoolean("show_password_dialog", true)
+                    }
+                )
+            }
+        )
+
+        binding.rvSearchResult.adapter = SearchResultRecyclerViewAdapter(
+            results = uiState.searchResults,
+            onResultClick = { noteTitle ->
+                // TODO Get notes from database by noteTitle
+            }
+        )
     }
 
     private fun setupNoteSearchView() {

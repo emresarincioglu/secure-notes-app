@@ -27,7 +27,9 @@ class SettingsFragment : DataBindingFragment<FragmentSettingsBinding>() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         inflateBinding(R.layout.fragment_settings, inflater, container, false)

@@ -19,30 +19,30 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 
-
 class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
-
     private val addNoteViewModel by viewModels<AddNoteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            setPathMotion(MaterialArcMotion())
-            setAllContainerColors(
-                MaterialColors.getColor(
-                    requireContext(),
-                    com.google.android.material.R.attr.colorSurface,
-                    Color.TRANSPARENT
+        sharedElementEnterTransition =
+            MaterialContainerTransform().apply {
+                setPathMotion(MaterialArcMotion())
+                setAllContainerColors(
+                    MaterialColors.getColor(
+                        requireContext(),
+                        com.google.android.material.R.attr.colorSurface,
+                        Color.TRANSPARENT
+                    )
                 )
-            )
-        }
+            }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-
         inflateBinding(R.layout.fragment_add_note, inflater, container, false)
         binding.viewModel = addNoteViewModel
 
@@ -55,7 +55,6 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
     }
 
     private fun setupViews() {
-
         binding.appBar.setNavigationOnClickListener {
             navigateToHomeScreen()
         }
@@ -65,12 +64,13 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
             if (menuItem.itemId == R.id.menu_item_save) {
                 TODO("Add note to database")
                 true
-            } else false
+            } else {
+                false
+            }
         }
     }
 
     private fun navigateToHomeScreen() {
-
         activity?.currentFocus?.clearFocus()
 
         val inputMethodManager =
@@ -81,7 +81,6 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
     }
 
     private fun warnAndNavigateUp() {
-
         val isEdited =
             binding.etNoteTitle.text.isNotEmpty() || binding.etNoteContent.text.isNotEmpty()
         if (isEdited) {

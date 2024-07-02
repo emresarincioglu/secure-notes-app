@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class AddNoteViewModel : ViewModel() {
-
     private val _uiState = MutableStateFlow(AddNoteScreenUiState())
     val uiState = _uiState.asStateFlow()
 }

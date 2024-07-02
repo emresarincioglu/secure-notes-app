@@ -85,11 +85,7 @@ class NoteRecyclerViewAdapter(
 
     class NoteCardViewHolder(private val binding: RvNoteCardItemBinding) :
         ViewHolder(binding.root) {
-
-        fun bind(
-            note: Note,
-            onNoteClick: (note: Note, cvNote: MaterialCardView) -> Unit
-        ) {
+        fun bind(note: Note, onNoteClick: (note: Note, cvNote: MaterialCardView) -> Unit) {
             binding.note = note
             binding.cvNote.setOnClickListener {
                 onNoteClick(note, binding.cvNote)
