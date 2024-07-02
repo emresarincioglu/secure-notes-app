@@ -27,10 +27,11 @@ import com.example.securenotes.feat.authentication.R
 import com.example.securenotes.feat.authentication.databinding.FragmentLoginBinding
 import com.example.securenotes.feat.authentication.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
-    private var biometricAuthenticators = 0
+    private var biometricAuthenticators by Delegates.notNull<Int>()
     private val loginViewModel by viewModels<LoginViewModel>()
 
     private val enrollBiometricsLauncher =
@@ -43,7 +44,9 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         inflateBinding(R.layout.fragment_login, inflater, container, false)

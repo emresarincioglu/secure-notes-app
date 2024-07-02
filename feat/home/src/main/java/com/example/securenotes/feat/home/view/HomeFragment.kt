@@ -13,14 +13,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.securenotes.core.navigation.NavigationOwner
 import com.example.securenotes.core.ui.DataBindingFragment
 import com.example.securenotes.feat.home.NoteRecyclerViewAdapter
 import com.example.securenotes.feat.home.R
 import com.example.securenotes.feat.home.SearchResultRecyclerViewAdapter
 import com.example.securenotes.feat.home.databinding.FragmentHomeBinding
+import com.example.securenotes.feat.home.model.uistate.HomeScreenUiState
 import com.example.securenotes.feat.home.viewmodel.HomeViewModel
 import com.google.android.material.search.SearchView
 import com.google.android.material.transition.Hold
@@ -79,35 +80,13 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     }
 
     private fun observeUiState() {
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 homeViewModel.uiState.collect { uiState ->
 
-                    binding.rvNote.adapter = NoteRecyclerViewAdapter(
-                        notes = uiState.notes,
-                        showWarning = !args.isPasswordCreated,
-                        onNoteClick = { note, cvNote ->
-                            exitTransition = Hold()
-                            findNavController().navigate(
-                                directions = HomeFragmentDirections.actionHomeFragmentToNoteFragment(
-                                    noteId = note.noteId,
-                                    noteTitle = note.title,
-                                    noteContent = note.content
-                                ),
-                                navigatorExtras = FragmentNavigatorExtras(cvNote to cvNote.transitionName)
-                            )
-                        },
-                        onWarningClick = {
-                            exitTransition = null
-                            findNavController().navigate(
-                                R.id.action_homeFragment_to_settingsGraph,
-                                args = Bundle().apply {
-                                    putBoolean("show_password_dialog", true)
-                                }
-                            )
-                        }
-                    )
+                    if (uiState.isPasswordCreated && !uiState.isAuthenticated) {
+                        (activity as NavigationOwner).resetBackStack()
+                    }
 
                     setupRecyclerViewAdapters(uiState)
                 }

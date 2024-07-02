@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.kotlin.detekt)
 }
@@ -46,10 +47,14 @@ dependencies {
 
     implementation(libs.bundles.navigation)
 
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
 }

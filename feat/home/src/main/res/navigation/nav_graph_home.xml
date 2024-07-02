@@ -24,10 +24,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-
-        <argument
-            android:name="is_password_created"
-            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -41,15 +37,15 @@
         android:label="Note">
 
         <argument
-            android:name="note_id"
+            android:name="@string/fragment_note_arg_note_id"
             app:argType="integer" />
 
         <argument
-            android:name="note_title"
+            android:name="@string/fragment_note_arg_note_title"
             app:argType="string" />
 
         <argument
-            android:name="note_content"
+            android:name="@string/fragment_note_arg_note_content"
             app:argType="string" />
     </fragment>
 </navigation>

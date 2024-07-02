@@ -1,3 +1,5 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -88,6 +90,7 @@ dependencies {
 
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
     implementation(project(":feat:authentication"))

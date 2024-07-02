@@ -11,7 +11,6 @@ import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.securenotes.core.ui.DataBindingFragment
 import com.example.securenotes.feat.home.R
 import com.example.securenotes.feat.home.databinding.FragmentNoteBinding
@@ -22,7 +21,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 
 class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     private val noteViewModel by viewModels<NoteViewModel>()
-    private val args by navArgs<NoteFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
