@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.navigation.safe.args.kotlin)
+    alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.kotlin.detekt)
 }
@@ -75,11 +75,19 @@ dependencies {
 
     implementation(libs.bundles.navigation)
 
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+
+    implementation(libs.androidx.work)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":core:ui"))
+    implementation(project(":core:common"))
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
     implementation(project(":feat:authentication"))
