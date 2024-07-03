@@ -1,4 +1,4 @@
-package com.example.securenotes.core.data
+package com.example.securenotes.data.settings
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
