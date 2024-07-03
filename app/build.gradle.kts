@@ -94,4 +94,5 @@ dependencies {
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
     implementation(project(":feat:authentication"))
+    implementation(project(":data:authentication"))
 }

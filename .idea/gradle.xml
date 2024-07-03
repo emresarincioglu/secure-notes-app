@@ -14,6 +14,8 @@
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/navigation" />
             <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/authentication" />
             <option value="$PROJECT_DIR$/feat" />
             <option value="$PROJECT_DIR$/feat/authentication" />
             <option value="$PROJECT_DIR$/feat/home" />

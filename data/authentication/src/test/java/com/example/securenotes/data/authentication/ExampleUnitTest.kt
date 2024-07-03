@@ -1,6 +1,6 @@
-package com.example.securenotes.core.navigation
+package com.example.securenotes.data.authentication
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
