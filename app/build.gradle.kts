@@ -93,6 +93,7 @@ dependencies {
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
     implementation(project(":feat:authentication"))
+    implementation(project(":domain:settings"))
     implementation(project(":domain:authentication"))
     implementation(project(":data:settings"))
     implementation(project(":data:authentication"))

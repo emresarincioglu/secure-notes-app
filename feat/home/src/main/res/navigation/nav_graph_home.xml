@@ -37,15 +37,15 @@
         android:label="Note">
 
         <argument
-            android:name="@string/fragment_note_arg_note_id"
+            android:name="note_id"
             app:argType="integer" />
 
         <argument
-            android:name="@string/fragment_note_arg_note_title"
+            android:name="note_title"
             app:argType="string" />
 
         <argument
-            android:name="@string/fragment_note_arg_note_content"
+            android:name="note_content"
             app:argType="string" />
     </fragment>
 </navigation>

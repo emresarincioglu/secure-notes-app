@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/data/settings" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/authentication" />
+            <option value="$PROJECT_DIR$/domain/settings" />
             <option value="$PROJECT_DIR$/feat" />
             <option value="$PROJECT_DIR$/feat/authentication" />
             <option value="$PROJECT_DIR$/feat/home" />

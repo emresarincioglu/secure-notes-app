@@ -56,9 +56,9 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
 
     private fun setupViews() {
         val args = requireArguments()
-        val noteId = args.getInt(getString(R.string.fragment_note_arg_note_id))
-        val noteTitle = args.getString(getString(R.string.fragment_note_arg_note_title))!!
-        val noteContent = args.getString(getString(R.string.fragment_note_arg_note_content))!!
+        val noteId = args.getInt("note_id")
+        val noteTitle = args.getString("note_title")!!
+        val noteContent = args.getString("note_content")!!
 
         noteViewModel.setNoteId(noteId)
         with(noteViewModel.uiState.value) {

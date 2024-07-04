@@ -15,7 +15,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.securenotes.core.navigation.NavigationOwner
 import com.example.securenotes.core.ui.DataBindingFragment
 import com.example.securenotes.feat.home.NoteRecyclerViewAdapter
 import com.example.securenotes.feat.home.R
@@ -26,6 +25,7 @@ import com.example.securenotes.feat.home.viewmodel.HomeViewModel
 import com.google.android.material.search.SearchView
 import com.google.android.material.transition.Hold
 import kotlinx.coroutines.launch
+import com.example.securenotes.core.navigation.R as coreNavigationR
 
 class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
@@ -85,7 +85,10 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                 homeViewModel.uiState.collect { uiState ->
 
                     if (uiState.isPasswordCreated && !uiState.isAuthenticated) {
-                        (activity as NavigationOwner).resetBackStack()
+                        binding.unbind()
+                        findNavController().navigate(
+                            coreNavigationR.id.action_global_nav_graph_authentication
+                        )
                     }
 
                     setupRecyclerViewAdapters(uiState)
@@ -167,18 +170,9 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                 findNavController().navigate(
                     R.id.action_homeFragment_to_noteFragment,
                     args = Bundle().apply {
-                        putInt(
-                            getString(R.string.fragment_note_arg_note_id),
-                            note.noteId
-                        )
-                        putString(
-                            getString(R.string.fragment_note_arg_note_title),
-                            note.title
-                        )
-                        putString(
-                            getString(R.string.fragment_note_arg_note_content),
-                            note.content
-                        )
+                        putInt("note_id", note.noteId)
+                        putString("note_title", note.title)
+                        putString("note_content", note.content)
                     },
                     navOptions = null,
                     FragmentNavigatorExtras(cvNote to cvNote.transitionName)

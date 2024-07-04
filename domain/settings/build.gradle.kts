@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.securenotes.feat.authentication"
+    namespace = "com.example.securenotes.domain.settings"
     compileSdk = 34
 
     defaultConfig {
@@ -34,19 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.biometric)
-
-    implementation(libs.bundles.navigation)
-
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
 
@@ -54,9 +44,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:navigation"))
-    implementation(project(":domain:settings"))
-    implementation(project(":domain:authentication"))
+    implementation(project(":data:authentication"))
+    implementation(project(":data:settings"))
 }

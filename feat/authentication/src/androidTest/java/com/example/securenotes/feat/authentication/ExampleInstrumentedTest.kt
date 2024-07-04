@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.github.emresarincioglu.authentication.test", appContext.packageName)
+        assertEquals("com.example.securenotes.feat.authentication.test", appContext.packageName)
     }
 }

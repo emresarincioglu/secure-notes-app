@@ -67,13 +67,13 @@ class SettingsFragment : DataBindingFragment<FragmentSettingsBinding>() {
         }
 
         binding.rlBiometric.setOnClickListener {
-            binding.swBiometric.apply {
+            with(binding.swBiometric) {
                 isChecked = !isChecked
             }
         }
 
         binding.rlScreenLock.setOnClickListener {
-            binding.swScreenLock.apply {
+            with(binding.swScreenLock) {
                 isChecked = !isChecked
             }
         }

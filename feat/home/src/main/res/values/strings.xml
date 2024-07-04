@@ -34,10 +34,4 @@
     <!-- Card Views -->
     <eat-comment />
     <string name="cv_password_warn_text">You didn\'t create a password. You should create a password to secure your notes. If you don\'t, anyone can read your notes.</string>
-
-    <!-- Navigation Arguments -->
-    <eat-comment />
-    <string name="fragment_note_arg_note_id">note_id</string>
-    <string name="fragment_note_arg_note_title">note_title</string>
-    <string name="fragment_note_arg_note_content">note_content</string>
 </resources>
