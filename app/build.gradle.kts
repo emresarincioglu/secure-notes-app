@@ -70,7 +70,6 @@ tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configure
 }
 
 dependencies {
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -94,6 +93,7 @@ dependencies {
     implementation(project(":feat:home"))
     implementation(project(":feat:settings"))
     implementation(project(":feat:authentication"))
+    implementation(project(":domain:authentication"))
     implementation(project(":data:settings"))
     implementation(project(":data:authentication"))
 }

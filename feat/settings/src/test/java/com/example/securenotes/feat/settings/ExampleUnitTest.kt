@@ -1,4 +1,4 @@
-package com.example.securenotes.core.navigation
+package com.example.securenotes.feat.settings
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

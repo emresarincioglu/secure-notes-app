@@ -1,4 +1,4 @@
-package com.example.securenotes.data.authentication.local
+package com.example.securenotes.data.settings.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -24,7 +24,6 @@ class SettingsDataSource @Inject constructor(
 
         private const val DEFAULT_BIOMETRIC_AUTH_STATUS = false
         private const val DEFAULT_SCREEN_LOCK_AUTH_STATUS = false
-        private const val DEFAULT_AUTH_ATTEMPT_LIMIT = 10
         private const val DEFAULT_AUTH_SESSION_TIMEOUT = 3
     }
 
@@ -37,7 +36,7 @@ class SettingsDataSource @Inject constructor(
     }
 
     val authenticationAttemptLimitStream = dataStore.data.map { preferences ->
-        preferences[AUTH_ATTEMPT_LIMIT_KEY] ?: DEFAULT_AUTH_ATTEMPT_LIMIT
+        preferences[AUTH_ATTEMPT_LIMIT_KEY]
     }
 
     val sessionTimeoutStream = dataStore.data.map { preferences ->

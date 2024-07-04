@@ -1,11 +1,11 @@
 package com.example.securenotes.data.settings
 
 import androidx.annotation.IntRange
-import com.example.securenotes.data.authentication.local.SettingsDataSource
-import com.example.securenotes.data.authentication.local.SettingsDataSource.Companion.AUTH_ATTEMPT_LIMIT_KEY
-import com.example.securenotes.data.authentication.local.SettingsDataSource.Companion.AUTH_SESSION_TIMEOUT_KEY
-import com.example.securenotes.data.authentication.local.SettingsDataSource.Companion.IS_BIOMETRIC_AUTH_ENABLED_KEY
-import com.example.securenotes.data.authentication.local.SettingsDataSource.Companion.IS_SCREEN_LOCK_AUTH_ENABLED_KEY
+import com.example.securenotes.data.settings.local.SettingsDataSource
+import com.example.securenotes.data.settings.local.SettingsDataSource.Companion.AUTH_ATTEMPT_LIMIT_KEY
+import com.example.securenotes.data.settings.local.SettingsDataSource.Companion.AUTH_SESSION_TIMEOUT_KEY
+import com.example.securenotes.data.settings.local.SettingsDataSource.Companion.IS_BIOMETRIC_AUTH_ENABLED_KEY
+import com.example.securenotes.data.settings.local.SettingsDataSource.Companion.IS_SCREEN_LOCK_AUTH_ENABLED_KEY
 import javax.inject.Inject
 
 class DefaultSettingsRepository

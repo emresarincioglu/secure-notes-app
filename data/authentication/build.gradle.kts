@@ -42,10 +42,6 @@ dependencies {
 
     implementation(libs.datastore.preferences)
 
-    implementation(libs.androidx.work)
-    implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -7,7 +7,7 @@ interface SettingsRepository {
 
     val isScreenLockAuthenticationEnabledStream: Flow<Boolean>
 
-    val authenticationAttemptLimitStream: Flow<Int>
+    val authenticationAttemptLimitStream: Flow<Int?>
 
     val sessionTimeoutStream: Flow<Int>
 

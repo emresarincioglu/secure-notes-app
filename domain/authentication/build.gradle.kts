@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kotlin.ktlint)
     alias(libs.plugins.kotlin.detekt)
 }
 
 android {
-    namespace = "com.example.securenotes.core.navigation"
+    namespace = "com.example.securenotes.domain.authentication"
     compileSdk = 34
 
     defaultConfig {
@@ -35,9 +37,14 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(":core:common"))
+    implementation(project(":data:authentication"))
+    implementation(project(":data:settings"))
 }

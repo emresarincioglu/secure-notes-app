@@ -5,9 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.example.securenotes.data.authentication.local.SettingsDataSource
 import com.example.securenotes.data.settings.DefaultSettingsRepository
 import com.example.securenotes.data.settings.SettingsRepository
+import com.example.securenotes.data.settings.local.SettingsDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -39,7 +39,6 @@ object SettingsDataProvideModule {
 
     @Provides
     @Singleton
-    @Named("authenticationDataStore")
     fun provideSettingsDataSource(@Named("settingsDataStore") dataStore: DataStore<Preferences>): SettingsDataSource {
         return SettingsDataSource(dataStore)
     }

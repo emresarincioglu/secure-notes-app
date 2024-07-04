@@ -43,7 +43,6 @@ object AuthenticationDataProvideModule {
 
     @Provides
     @Singleton
-    @Named("authenticationDataStore")
     fun provideAuthenticationDataSource(
         @Named("authenticationDataStore") dataStore: DataStore<Preferences>
     ): AuthenticationDataSource {

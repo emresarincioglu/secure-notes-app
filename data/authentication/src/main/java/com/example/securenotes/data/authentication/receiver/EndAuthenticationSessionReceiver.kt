@@ -10,15 +10,16 @@ import androidx.datastore.core.IOException
 import com.example.securenotes.core.common.di.ApplicationScope
 import com.example.securenotes.data.authentication.repository.AuthenticationRepository
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EndAuthenticationSessionReceiver : BroadcastReceiver() {
 
     companion object {
         const val REQUEST_CODE = 0
+        const val DEFAULT_RESCHEDULE_LIMIT = 8
     }
 
     @Inject
@@ -36,7 +37,7 @@ class EndAuthenticationSessionReceiver : BroadcastReceiver() {
                 authenticationRepository.endSession()
             } catch (ioException: IOException) {
                 val rescheduleCount = intent.getIntExtra("reschedule_count", 0)
-                val rescheduleLimit = intent.getIntExtra("reschedule_limit", 8)
+                val rescheduleLimit = intent.getIntExtra("reschedule_limit", DEFAULT_RESCHEDULE_LIMIT)
                 if (rescheduleCount < rescheduleLimit) {
                     val triggerTime = Calendar.getInstance().apply {
                         add(Calendar.SECOND, 2)
