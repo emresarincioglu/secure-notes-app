@@ -12,12 +12,10 @@ class GetAuthenticationDataUseCase
 @Inject
 constructor(
     private val authenticationRepository: AuthenticationRepository,
-    private val settingsRepository: SettingsRepository,
-    private val isPasswordCreatedUseCase: IsPasswordCreatedUseCase,
+    private val settingsRepository: SettingsRepository
 ) {
     suspend operator fun invoke() = coroutineScope {
 
-        val isPasswordCreated = async { isPasswordCreatedUseCase() }
         val authAttemptLimit = async { settingsRepository.authenticationAttemptLimitStream.first() }
         val failedAuthAttempts = async {
             authenticationRepository.failedAuthenticationAttemptsStream.first()
@@ -31,7 +29,6 @@ constructor(
 
         AuthenticationData(
             authAttemptLimit = authAttemptLimit.await(),
-            isPasswordCreated = isPasswordCreated.await(),
             failedAuthAttempts = failedAuthAttempts.await(),
             isBiometricLoginEnabled = isBiometricAuthEnabled.await(),
             isScreenLockLoginEnabled = isScreenLockAuthEnabled.await()

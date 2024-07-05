@@ -16,8 +16,8 @@ import com.example.securenotes.data.authentication.receiver.EndAuthenticationSes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
@@ -32,8 +32,8 @@ constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : AuthenticationRepository {
 
-    private val _isAuthenticatedStream = MutableStateFlow(false)
-    override val isAuthenticatedStream = _isAuthenticatedStream.asStateFlow()
+    private val _isAuthenticatedStream = MutableSharedFlow<Boolean>(replay = 1)
+    override val isAuthenticatedStream = _isAuthenticatedStream.asSharedFlow()
 
     override val isPasswordCreatedStream = localDataSource.isPasswordCreatedStream
 
@@ -46,8 +46,30 @@ constructor(
                 localDataSource.getPreference(AUTH_SESSION_END_TIME_KEY)?.let { endTime ->
                     System.currentTimeMillis() >= endTime
                 } ?: true
-            _isAuthenticatedStream.value = !isSessionOver
+            _isAuthenticatedStream.emit(!isSessionOver)
         }
+    }
+
+    /**
+     * @param duration Authentication session duration as minutes.
+     */
+    override suspend fun startSession(duration: Int) {
+        setSessionEndTime(
+            Calendar.getInstance()
+                .apply { add(Calendar.MINUTE, duration) }
+                .timeInMillis
+        )
+        _isAuthenticatedStream.emit(true)
+    }
+
+    /**
+     * @param duration Authentication session duration as minutes.
+     */
+    override suspend fun restartSession(duration: Int) = startSession(duration)
+
+    override suspend fun endSession() {
+        setSessionEndTime(null)
+        _isAuthenticatedStream.emit(false)
     }
 
     override suspend fun isPasswordCorrect(password: String): Boolean {
@@ -77,28 +99,6 @@ constructor(
                 localDataSource.setPreference(PASSWORD_HASH_KEY, passwordHash)
             }
         }
-    }
-
-    /**
-     * @param duration Authentication session duration as minutes.
-     */
-    override suspend fun startSession(duration: Int) {
-        setSessionEndTime(
-            Calendar.getInstance()
-                .apply { add(Calendar.MINUTE, duration) }
-                .timeInMillis
-        )
-        _isAuthenticatedStream.value = true
-    }
-
-    /**
-     * @param duration Authentication session duration as minutes.
-     */
-    override suspend fun restartSession(duration: Int) = startSession(duration)
-
-    override suspend fun endSession() {
-        setSessionEndTime(null)
-        _isAuthenticatedStream.value = false
     }
 
     override suspend fun setFailedAuthenticationAttempts(@IntRange(from = 0) count: Int) =

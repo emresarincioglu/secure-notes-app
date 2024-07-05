@@ -63,9 +63,8 @@ object AuthenticationDomainModule {
     @Provides
     fun provideGetAuthenticationDataUseCase(
         authenticationRepository: AuthenticationRepository,
-        settingsRepository: SettingsRepository,
-        isPasswordCreatedUseCase: IsPasswordCreatedUseCase
+        settingsRepository: SettingsRepository
     ): GetAuthenticationDataUseCase {
-        return GetAuthenticationDataUseCase(authenticationRepository, settingsRepository, isPasswordCreatedUseCase)
+        return GetAuthenticationDataUseCase(authenticationRepository, settingsRepository)
     }
 }

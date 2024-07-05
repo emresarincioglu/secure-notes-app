@@ -10,15 +10,15 @@ interface AuthenticationRepository {
 
     val failedAuthenticationAttemptsStream: Flow<Int>
 
-    suspend fun isPasswordCorrect(password: String): Boolean
-
-    suspend fun setPassword(password: String?)
-
     suspend fun startSession(duration: Int)
 
     suspend fun restartSession(duration: Int)
 
     suspend fun endSession()
+
+    suspend fun isPasswordCorrect(password: String): Boolean
+
+    suspend fun setPassword(password: String?)
 
     suspend fun setFailedAuthenticationAttempts(count: Int)
 }

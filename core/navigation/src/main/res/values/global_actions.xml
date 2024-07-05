@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="action_global_nav_graph_authentication" type="id" />
+    <item name="action_global_to_authenticationGraph" type="id" />
 </resources>

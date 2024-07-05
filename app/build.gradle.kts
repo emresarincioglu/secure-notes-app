@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    implementation(libs.androidx.core.splashscreen)
+
     implementation(libs.bundles.navigation)
 
     implementation(libs.dagger.hilt.android)

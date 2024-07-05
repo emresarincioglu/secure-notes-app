@@ -12,11 +12,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <!-- TODO: Add logo -->
-        <!-- TODO: Add helper text and change tint of indicator to indicate password strength -->
+        <!-- TODO Add logo -->
+        <!-- TODO Add helper text and change tint of indicator to indicate password strength -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tf_password"
             style="?textInputFilledStyle"
@@ -31,6 +31,17 @@
                 android:inputType="textPassword"
                 android:text="@={viewModel.uiState.passwordInput}" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/pi_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:hideAnimationBehavior="inward"
+            app:showAnimationBehavior="outward"
+            app:showDelay="150" />
 
         <Button
             android:id="@+id/btn_login"

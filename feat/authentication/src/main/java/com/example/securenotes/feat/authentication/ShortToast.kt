@@ -16,7 +16,7 @@ object ShortToast {
         text: String,
         @IntRange(from = 0, to = 3500) durationMillis: Long
     ) {
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+        val toast = Toast.makeText(context.applicationContext, text, Toast.LENGTH_LONG)
         toast.show()
         externalScope.launch {
             delay(durationMillis)
@@ -30,7 +30,7 @@ object ShortToast {
         @StringRes text: Int,
         @IntRange(from = 0, to = 3500) durationMillis: Long
     ) {
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+        val toast = Toast.makeText(context.applicationContext, text, Toast.LENGTH_LONG)
         toast.show()
         externalScope.launch {
             delay(durationMillis)

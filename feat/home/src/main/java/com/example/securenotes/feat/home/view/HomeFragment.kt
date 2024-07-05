@@ -48,6 +48,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
         inflateBinding(R.layout.fragment_home, inflater, container, false)
         binding.viewModel = homeViewModel
 
+        // TODO Add skeleton loader animation
         setupViews()
         observeUiState()
 
@@ -87,7 +88,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                     if (uiState.isPasswordCreated && !uiState.isAuthenticated) {
                         binding.unbind()
                         findNavController().navigate(
-                            coreNavigationR.id.action_global_nav_graph_authentication
+                            coreNavigationR.id.action_global_to_authenticationGraph
                         )
                     }
 
