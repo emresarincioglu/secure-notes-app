@@ -2,18 +2,20 @@
 <resources>
     <!-- Errors -->
     <eat-comment />
-    <string name="error_password_incorrect">Password is incorrect.</string>
-    <string name="error_exceed_login_attempt_limit">Too many incorrect login attempt.</string>
-    <string name="error_biometric_authentication_failed">Authentication failed</string>
+    <string name="error_login_failed">Login failed.</string>
+    <string name="error_login_failed_with_attempts">Login failed. Remaining login attempts before deleting notes: %d</string>
     <string name="error_setup_biometric_data">You should set up biometric data</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_no_suitable_hardware">There is no suitable hardware for biometric authentication.</string>
 
     <!-- Toasts -->
     <eat-comment />
     <string name="toast_enroll_biometric">Enroll biometric data</string>
+    <string name="toast_notes_deleted">Attempt limit exceeded, all notes deleted!</string>
 
     <!-- Dialogs -->
     <eat-comment />
-    <string name="dialog_biometric_title">Biometric login</string>
+    <string name="dialog_biometric_title">Alternative login</string>
     <string name="dialog_biometric_subtitle">Log in using your biometric data or screen lock</string>
 
     <!-- Text Fields -->
