@@ -32,9 +32,9 @@
             <com.google.android.material.search.SearchBar
                 android:id="@+id/sb_note"
                 android:layout_width="match_parent"
-                app:menu="@menu/menu_home_app_bar"
                 android:layout_height="wrap_content"
-                android:hint="@string/sb_note_hint" />
+                android:hint="@string/sb_note_hint"
+                app:menu="@menu/menu_home_app_bar" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.search.SearchView
@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/sb_note_hint"
+            app:backHandlingEnabled="true"
             app:layout_anchor="@id/sb_note">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="15" />
+                tools:itemCount="0" />
         </com.google.android.material.search.SearchView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

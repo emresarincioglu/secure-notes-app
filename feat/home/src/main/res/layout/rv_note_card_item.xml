@@ -7,14 +7,14 @@
 
         <variable
             name="note"
-            type="com.example.securenotes.feat.home.model.Note" />
+            type="com.example.securenotes.domain.home.model.Note" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_note"
         style="?materialCardViewFilledStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="135dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:checkable="true"
@@ -35,7 +35,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{note.title}"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textStyle="bold"
                 app:goneIf="@{note.title.blank}"
                 tools:text="Very long note title" />

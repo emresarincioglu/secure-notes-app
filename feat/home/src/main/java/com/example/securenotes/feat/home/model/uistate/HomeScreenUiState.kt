@@ -1,6 +1,6 @@
 package com.example.securenotes.feat.home.model.uistate
 
-import com.example.securenotes.feat.home.model.Note
+import com.example.securenotes.domain.home.model.Note
 
 data class HomeScreenUiState(
     val isAuthenticated: Boolean = false,

@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.securenotes.domain.home.model.Note
 import com.example.securenotes.feat.home.databinding.RvNoteCardItemBinding
-import com.example.securenotes.feat.home.model.Note
 import com.google.android.material.card.MaterialCardView
 
 class NoteRecyclerViewAdapter(
