@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,24 +19,26 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
+
     private val addNoteViewModel by viewModels<AddNoteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition =
-            MaterialContainerTransform().apply {
-                setPathMotion(MaterialArcMotion())
-                setAllContainerColors(
-                    MaterialColors.getColor(
-                        requireContext(),
-                        com.google.android.material.R.attr.colorSurface,
-                        Color.TRANSPARENT
-                    )
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            setPathMotion(MaterialArcMotion())
+            setAllContainerColors(
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorSurface,
+                    Color.TRANSPARENT
                 )
-            }
+            )
+        }
     }
 
     override fun onCreateView(
@@ -46,7 +49,7 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
         inflateBinding(R.layout.fragment_add_note, inflater, container, false)
         binding.viewModel = addNoteViewModel
 
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             navigateToHomeScreen()
         }
 
@@ -60,9 +63,10 @@ class AddNoteFragment : DataBindingFragment<FragmentAddNoteBinding>() {
         }
 
         binding.appBar.setOnMenuItemClickListener { menuItem ->
-
             if (menuItem.itemId == R.id.menu_item_save) {
-                TODO("Add note to database")
+                addNoteViewModel.addNote()
+                Toast.makeText(context, R.string.toast_note_saved, Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
                 true
             } else {
                 false
