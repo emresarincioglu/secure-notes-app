@@ -10,7 +10,7 @@ import com.example.securenotes.feat.home.databinding.RvNoteCardItemBinding
 import com.google.android.material.card.MaterialCardView
 
 class NoteRecyclerViewAdapter(
-    private val notes: List<Note>,
+    private var notes: List<Note>,
     private val showWarning: Boolean,
     private val onNoteClick: (note: Note, cvNote: MaterialCardView) -> Unit,
     private val onWarningClick: (view: View) -> Unit
@@ -23,10 +23,8 @@ class NoteRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val context = parent.context
         val viewHolder = when (viewType) {
-
             ITEM_TYPE_HEADER -> {
                 val tvNote = LayoutInflater.from(context).inflate(
                     R.layout.rv_note_header_item, parent, false
@@ -58,7 +56,6 @@ class NoteRecyclerViewAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-
         return if (position == 0) {
             ITEM_TYPE_HEADER
         } else if (showWarning && position == 1) {
@@ -69,7 +66,6 @@ class NoteRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         if (holder.itemViewType == ITEM_TYPE_NOTE) {
             val note = getNote(position)
             (holder as NoteCardViewHolder).bind(note, onNoteClick)
@@ -77,6 +73,15 @@ class NoteRecyclerViewAdapter(
     }
 
     override fun getItemCount() = if (showWarning) notes.size + 2 else notes.size + 1
+
+    fun updateData(newNotes: List<Note>) {
+        if (notes === newNotes) {
+            return
+        }
+
+        notes = newNotes
+        notifyDataSetChanged()
+    }
 
     private fun getNote(position: Int): Note {
         val noteIndex = if (showWarning) position - 2 else position - 1

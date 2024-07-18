@@ -24,12 +24,31 @@ import com.example.securenotes.feat.home.model.uistate.HomeScreenUiState
 import com.example.securenotes.feat.home.viewmodel.HomeViewModel
 import com.google.android.material.search.SearchView
 import com.google.android.material.transition.Hold
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.securenotes.core.navigation.R as coreNavigationR
 
+@AndroidEntryPoint
 class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        inflateBinding(R.layout.fragment_home, inflater, container, false)
+        binding.viewModel = homeViewModel
+
+        // TODO: Show logo if there are no notes
+        // FIXME: Search view back button not closing search view
+        // TODO: Show note last edit time
+        setupViews()
+        observeUiState()
+
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,25 +59,11 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        inflateBinding(R.layout.fragment_home, inflater, container, false)
-        binding.viewModel = homeViewModel
-
-        // TODO Add skeleton loader animation
-        setupViews()
-        observeUiState()
-
-        return binding.root
-    }
-
     private fun setupViews() {
+        homeViewModel.loadNotes()
+
         setupNoteRecyclerView()
         setupNoteSearchView()
-
         binding.sbNote.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.menu_item_settings) {
                 exitTransition = null
@@ -81,12 +86,12 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     }
 
     private fun observeUiState() {
+        val isPasswordCreated = requireArguments().getBoolean("is_password_created")
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 homeViewModel.uiState.collect { uiState ->
 
-                    if (uiState.isPasswordCreated && !uiState.isAuthenticated) {
-                        binding.unbind()
+                    if (isPasswordCreated && uiState.isAuthenticated == false) {
                         findNavController().navigate(
                             coreNavigationR.id.action_global_to_authenticationGraph
                         )
@@ -107,13 +112,20 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
             ): Int {
                 val isNote = viewHolder.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
                 val dragFlags = if (isNote) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
-                return makeMovementFlags(dragFlags, 0)
+
+                val movementFlags = if (binding.sbNote.text.isBlank()) {
+                    makeMovementFlags(dragFlags, 0)
+                } else {
+                    makeMovementFlags(0, 0)
+                }
+
+                return movementFlags
             }
 
             override fun onMove(
                 recyclerView: RecyclerView,
-                source: RecyclerView.ViewHolder,
-                destination: RecyclerView.ViewHolder
+                destination: RecyclerView.ViewHolder,
+                source: RecyclerView.ViewHolder
             ): Boolean {
                 val adapter = recyclerView.adapter as NoteRecyclerViewAdapter
                 val isSourceNote = source.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
@@ -121,7 +133,13 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
                     destination.itemViewType == NoteRecyclerViewAdapter.ITEM_TYPE_NOTE
 
                 return if (isSourceNote && isDestinationNote) {
-                    homeViewModel.swapNotes(source.adapterPosition, destination.adapterPosition)
+                    val isPasswordCreated = requireArguments().getBoolean("is_password_created")
+                    val sub = if (isPasswordCreated) 1 else 2
+
+                    val fromIndex = source.adapterPosition - sub
+                    val toIndex = destination.adapterPosition - sub
+
+                    homeViewModel.swapNotes(fromIndex, toIndex)
                     adapter.notifyItemMoved(source.adapterPosition, destination.adapterPosition)
                     true
                 } else {
@@ -149,6 +167,7 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
             ) {
                 super.clearView(recyclerView, viewHolder)
 
+                homeViewModel.updateNoteOrder()
                 viewHolder.itemView.startAnimation(
                     AnimationUtils.loadAnimation(context, R.anim.translucent_to_opaque).apply {
                         fillAfter = true
@@ -161,71 +180,90 @@ class HomeFragment : DataBindingFragment<FragmentHomeBinding>() {
     }
 
     private fun setupRecyclerViewAdapters(uiState: HomeScreenUiState) {
+        val isPasswordCreated = requireArguments().getBoolean("is_password_created")
 
-        binding.rvNote.adapter = NoteRecyclerViewAdapter(
-            notes = uiState.notes,
-            showWarning = !uiState.isPasswordCreated,
-            onNoteClick = { note, cvNote ->
+        if (binding.rvNote.adapter == null) {
+            binding.rvNote.adapter = NoteRecyclerViewAdapter(
+                notes = uiState.notes,
+                showWarning = !isPasswordCreated,
+                onNoteClick = { note, cvNote ->
+                    exitTransition = Hold()
+                    binding.fabNote.visibility = View.GONE
 
-                exitTransition = Hold()
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_noteFragment,
-                    args = Bundle().apply {
-                        putInt("note_id", note.noteId)
-                        putString("note_title", note.title)
-                        putString("note_content", note.content)
-                    },
-                    navOptions = null,
-                    FragmentNavigatorExtras(cvNote to cvNote.transitionName)
-                )
-            },
-            onWarningClick = {
-                exitTransition = null
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_settingsGraph,
-                    args = Bundle().apply {
-                        putBoolean("show_password_dialog", true)
-                    }
-                )
-            }
-        )
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_noteFragment,
+                        args = Bundle().apply {
+                            putInt("note_id", note.noteId)
+                            putString("note_title", note.title)
+                            putString("note_content", note.content)
+                        },
+                        navOptions = null,
+                        FragmentNavigatorExtras(cvNote to cvNote.transitionName)
+                    )
+                },
+                onWarningClick = {
+                    exitTransition = null
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_settingsGraph,
+                        args = Bundle().apply {
+                            putBoolean("show_password_dialog", true)
+                        }
+                    )
+                }
+            )
+        } else {
+            val adapter = binding.rvNote.adapter as NoteRecyclerViewAdapter
+            adapter.updateData(uiState.notes)
+        }
 
-        binding.rvSearchResult.adapter = SearchResultRecyclerViewAdapter(
-            results = uiState.searchResults,
-            onResultClick = { noteTitle ->
-                // TODO Get notes from database by noteTitle
-            }
-        )
+        if (binding.rvSearchResult.adapter == null) {
+            binding.rvSearchResult.adapter = SearchResultRecyclerViewAdapter(
+                results = uiState.searchResults,
+                onResultClick = { noteTitle ->
+                    binding.svNote.setText(noteTitle)
+                    homeViewModel.getNotesBySearch()
+                    binding.svNote.hide()
+                }
+            )
+        } else {
+            val adapter = binding.rvSearchResult.adapter as SearchResultRecyclerViewAdapter
+            adapter.updateData(uiState.searchResults)
+        }
     }
 
     private fun setupNoteSearchView() {
+        // TODO Add previous search results with different icon
 
         // On search view visibility change
         binding.svNote.addTransitionListener { searchView, previousState, newState ->
+            when (newState) {
+                SearchView.TransitionState.SHOWING -> binding.fabNote.hide()
 
-            if (newState == SearchView.TransitionState.SHOWING) {
-                binding.fabNote.hide()
-            } else if (newState == SearchView.TransitionState.HIDDEN) {
-                binding.sbNote.setText(binding.svNote.text)
-                binding.fabNote.show()
-
-                if (binding.svNote.text.isBlank()) {
-                    homeViewModel.getNotes()
+                SearchView.TransitionState.HIDING -> {
+                    if (searchView.text.isBlank()) {
+                        homeViewModel.getNotesBySearch()
+                    }
                 }
+
+                SearchView.TransitionState.HIDDEN -> {
+                    binding.sbNote.setText(searchView.text)
+                    binding.fabNote.show()
+                }
+
+                else -> Unit
             }
         }
 
         // On query text change
         binding.svNote.editText.addTextChangedListener { query ->
-            homeViewModel.getSearchResults(query.toString())
+            homeViewModel.getSearchResults(query?.toString() ?: "")
         }
 
         // On query submit
         binding.svNote.editText.setOnEditorActionListener { view, actionId, keyEvent ->
-
             val query = binding.svNote.text.toString()
             if (query.isNotBlank()) {
-                homeViewModel.getNotes(query)
+                homeViewModel.getNotesBySearch()
             }
             binding.svNote.hide()
             true

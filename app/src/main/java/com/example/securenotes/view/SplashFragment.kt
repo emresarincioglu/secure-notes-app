@@ -27,10 +27,21 @@ class SplashFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 splashViewModel.getData()
-                if (splashViewModel.isAuthenticated!! || !splashViewModel.isPasswordCreated!!) {
-                    findNavController().navigate(R.id.action_splashFragment_to_graph_homeGraph)
-                } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_graph_authenticationGraph)
+                when {
+                    splashViewModel.isAuthenticated!! -> findNavController().navigate(
+                        R.id.action_splashFragment_to_homeGraph,
+                        args = Bundle().apply {
+                            putBoolean("is_password_created", true)
+                        }
+                    )
+
+                    !splashViewModel.isPasswordCreated!! -> findNavController().navigate(
+                        R.id.action_splashFragment_to_homeGraph
+                    )
+
+                    else -> findNavController().navigate(
+                        R.id.action_splashFragment_to_authenticationGraph
+                    )
                 }
             }
         }

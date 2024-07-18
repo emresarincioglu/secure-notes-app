@@ -34,4 +34,15 @@
     <!-- Card Views -->
     <eat-comment />
     <string name="cv_password_warn_text">You didn\'t create a password. You should create a password to secure your notes. If you don\'t, anyone can read your notes.</string>
+
+    <!-- Errors -->
+    <eat-comment />
+    <string name="error_note_not_saved">An error occurred while trying to save note.</string>
+    <string name="error_note_not_deleted">An error occurred while trying to delete note.</string>
+
+    <!-- Toasts -->
+    <eat-comment />
+    <string name="toast_note_saved">Note saved successfully.</string>
+    <string name="toast_note_deleted">Note deleted successfully.</string>
+    <string name="toast_note_not_edited">You did not edit the note yet.</string>
 </resources>

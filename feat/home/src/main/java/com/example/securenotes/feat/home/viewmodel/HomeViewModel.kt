@@ -24,32 +24,68 @@ constructor(
     getIsAuthenticatedStreamUseCase: GetIsAuthenticatedStreamUseCase
 ) : ViewModel() {
 
-class HomeViewModel : ViewModel() {
+    companion object {
+        private const val FLOW_SUBSCRIPTION_TIMEOUT = 500L
+    }
+
+    private lateinit var loadedNotes: List<Note>
+    private lateinit var filteredNoteIndices: List<Int>
 
     private val _uiState = MutableStateFlow(HomeScreenUiState())
-    val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.combine(getIsAuthenticatedStreamUseCase()) { uiState, isAuthenticated ->
+        uiState.copy(isAuthenticated = isAuthenticated)
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(FLOW_SUBSCRIPTION_TIMEOUT),
+        _uiState.value
+    )
 
-    fun swapNotes(@IntRange(from = 0) from: Int, @IntRange(from = 0) to: Int) {
-
-        if (from != to) {
-            // TODO: Swap notes in database
+    fun loadNotes() {
+        viewModelScope.launch {
+            loadedNotes = getNoteSummariesUseCase()
+            _uiState.value = uiState.value.copy(notes = loadedNotes)
         }
     }
 
-    fun getNotes() {
-        // TODO: Get all notes
+    fun getNotesBySearch() {
+        val filteredNotes = mutableListOf<Note>()
+        for (index in filteredNoteIndices) {
+            filteredNotes.add(loadedNotes[index])
+        }
+
+        _uiState.value = uiState.value.copy(
+            notes = if (filteredNoteIndices.isEmpty()) loadedNotes else filteredNotes
+        )
     }
 
-    fun getNotes(query: String) {
-        // TODO: Get notes by query
+    fun getSearchResults(title: String) {
+        if (title.isBlank()) {
+            filteredNoteIndices = emptyList()
+            _uiState.value = uiState.value.copy(searchResults = emptyList())
+            return
+        }
+
+        val filteredNotes = loadedNotes.withIndex().filter {
+            it.value.title.contains(title, ignoreCase = true)
+        }
+
+        filteredNoteIndices = filteredNotes.map { it.index }
+        _uiState.value = uiState.value.copy(searchResults = filteredNotes.map { it.value.title })
     }
 
-    fun getSearchResults(query: String) {
+    fun swapNotes(from: Int, to: Int) {
+        loadedNotes = loadedNotes.mapIndexed { index, note ->
+            when (index) {
+                from -> loadedNotes[to]
+                to -> loadedNotes[from]
+                else -> note
+            }
+        }
+    }
 
-        if (query.isBlank()) {
-            _uiState.value = _uiState.value.copy(searchResults = emptyList())
-        } else {
-            // TODO: Get search results by query
+    fun updateNoteOrder() {
+        viewModelScope.launch {
+            updateNoteOrderUseCase(loadedNotes.map { it.noteId })
         }
     }
 }

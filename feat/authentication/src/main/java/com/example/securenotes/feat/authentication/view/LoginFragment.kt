@@ -78,7 +78,12 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
                     if (uiState.isAuthenticated) {
                         // TODO Add navigation animation
-                        findNavController().navigate(R.id.action_loginFragment_to_homeGraph)
+                        findNavController().navigate(
+                            R.id.action_loginFragment_to_homeGraph,
+                            args = Bundle().apply {
+                                putBoolean("is_password_created", true)
+                            }
+                        )
                     }
 
                     biometricAuthenticators = 0

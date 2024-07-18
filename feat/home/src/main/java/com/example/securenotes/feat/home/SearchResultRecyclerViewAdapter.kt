@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class SearchResultRecyclerViewAdapter(
-    private val results: List<String>,
+    private var results: List<String>,
     private val onResultClick: (String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -29,4 +29,13 @@ class SearchResultRecyclerViewAdapter(
     }
 
     override fun getItemCount() = results.size
+
+    fun updateData(newResults: List<String>) {
+        if (results === newResults) {
+            return
+        }
+
+        results = newResults
+        notifyDataSetChanged()
+    }
 }

@@ -25,17 +25,16 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition =
-            MaterialContainerTransform().apply {
-                scrimColor = Color.TRANSPARENT
-                setAllContainerColors(
-                    MaterialColors.getColor(
-                        requireContext(),
-                        com.google.android.material.R.attr.colorSurface,
-                        Color.TRANSPARENT
-                    )
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorSurface,
+                    Color.TRANSPARENT
                 )
-            }
+            )
+        }
     }
 
     override fun onCreateView(
@@ -46,7 +45,7 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
         inflateBinding(R.layout.fragment_note, inflater, container, false)
         binding.viewModel = noteViewModel
 
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             navigateToHomeScreen()
         }
 
@@ -113,21 +112,21 @@ class NoteFragment : DataBindingFragment<FragmentNoteBinding>() {
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-        warnAndNavigateUp()
+        warnAndPopBack()
     }
 
-    private fun warnAndNavigateUp() {
+    private fun warnAndPopBack() {
         if (noteViewModel.uiState.value.isEdited) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_discard_note_title))
                 .setMessage(getString(R.string.dialog_discard_note_message))
                 .setNegativeButton(resources.getString(android.R.string.cancel), null)
                 .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, which ->
-                    findNavController().navigateUp()
+                    findNavController().popBackStack()
                 }
                 .show()
         } else {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
     }
 }
