@@ -39,7 +39,9 @@ object SettingsDataProvideModule {
 
     @Provides
     @Singleton
-    fun provideSettingsDataSource(@Named("settingsDataStore") dataStore: DataStore<Preferences>): SettingsDataSource {
+    fun provideSettingsDataSource(
+        @Named("settingsDataStore") dataStore: DataStore<Preferences>
+    ): SettingsDataSource {
         return SettingsDataSource(dataStore)
     }
 }

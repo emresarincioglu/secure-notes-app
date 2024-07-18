@@ -21,4 +21,6 @@ interface AuthenticationRepository {
     suspend fun setPassword(password: String?)
 
     suspend fun setFailedAuthenticationAttempts(count: Int)
+
+    suspend fun deleteAuthenticationSettings()
 }

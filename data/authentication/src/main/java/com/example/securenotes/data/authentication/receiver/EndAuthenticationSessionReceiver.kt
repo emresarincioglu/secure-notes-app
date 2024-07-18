@@ -37,7 +37,10 @@ class EndAuthenticationSessionReceiver : BroadcastReceiver() {
                 authenticationRepository.endSession()
             } catch (ioException: IOException) {
                 val rescheduleCount = intent.getIntExtra("reschedule_count", 0)
-                val rescheduleLimit = intent.getIntExtra("reschedule_limit", DEFAULT_RESCHEDULE_LIMIT)
+                val rescheduleLimit = intent.getIntExtra(
+                    "reschedule_limit",
+                    DEFAULT_RESCHEDULE_LIMIT
+                )
                 if (rescheduleCount < rescheduleLimit) {
                     val triggerTime = Calendar.getInstance().apply {
                         add(Calendar.SECOND, 2)

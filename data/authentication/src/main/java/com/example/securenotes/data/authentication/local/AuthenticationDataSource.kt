@@ -31,9 +31,7 @@ class AuthenticationDataSource @Inject constructor(
         preferences[FAILED_AUTH_ATTEMPTS_KEY] ?: DEFAULT_FAILED_AUTH_ATTEMPTS_COUNT
     }
 
-    suspend fun <T> getPreference(key: Preferences.Key<T>): T? {
-        return dataStore.data.first()[key]
-    }
+    suspend fun <T> getPreference(key: Preferences.Key<T>) = dataStore.data.first()[key]
 
     suspend fun <T> setPreference(key: Preferences.Key<T>, value: T) {
         dataStore.edit { preferences ->
@@ -44,6 +42,12 @@ class AuthenticationDataSource @Inject constructor(
     suspend fun <T> removePreference(key: Preferences.Key<T>) {
         dataStore.edit { preferences ->
             preferences.remove(key)
+        }
+    }
+
+    suspend fun deleteSettings() {
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 }

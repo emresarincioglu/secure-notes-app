@@ -7,12 +7,12 @@ import android.content.Intent
 import androidx.annotation.IntRange
 import com.example.securenotes.core.common.di.ApplicationScope
 import com.example.securenotes.core.common.di.DefaultDispatcher
-import com.example.securenotes.data.authentication.CryptoManager
 import com.example.securenotes.data.authentication.local.AuthenticationDataSource
 import com.example.securenotes.data.authentication.local.AuthenticationDataSource.Companion.AUTH_SESSION_END_TIME_KEY
 import com.example.securenotes.data.authentication.local.AuthenticationDataSource.Companion.FAILED_AUTH_ATTEMPTS_KEY
 import com.example.securenotes.data.authentication.local.AuthenticationDataSource.Companion.PASSWORD_HASH_KEY
 import com.example.securenotes.data.authentication.receiver.EndAuthenticationSessionReceiver
+import com.example.securenotes.data.authentication.toSha256
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -79,8 +79,7 @@ constructor(
 
         return localDataSource.getPreference(PASSWORD_HASH_KEY)?.let { storedHash ->
             withContext(defaultDispatcher) {
-                val passwordHash = CryptoManager.computeSha256(password)
-                passwordHash == storedHash
+                password.toSha256() == storedHash
             }
         } ?: false
     }
@@ -95,8 +94,7 @@ constructor(
             localDataSource.removePreference(PASSWORD_HASH_KEY)
         } else {
             withContext(defaultDispatcher) {
-                val passwordHash = CryptoManager.computeSha256(password)
-                localDataSource.setPreference(PASSWORD_HASH_KEY, passwordHash)
+                localDataSource.setPreference(PASSWORD_HASH_KEY, password.toSha256())
             }
         }
     }
