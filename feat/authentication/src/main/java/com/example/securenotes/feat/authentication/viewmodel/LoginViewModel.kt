@@ -25,6 +25,7 @@ import kotlin.properties.Delegates
 class LoginViewModel
 @Inject
 constructor(
+    private val deleteDataUseCase: DeleteDataUseCase,
     private val logInWithPasswordUseCase: LogInWithPasswordUseCase,
     private val getAuthenticationDataUseCase: GetAuthenticationDataUseCase,
     private val startAuthenticationSessionUseCase: StartAuthenticationSessionUseCase,
@@ -39,10 +40,15 @@ constructor(
     private var authenticationAttemptLimit: Int? = null
     private var failedAuthenticationAttempts by Delegates.notNull<Int>()
 
-    val remainingAuthenticationAttempts get() = authenticationAttemptLimit?.minus(failedAuthenticationAttempts)
+    val remainingAuthenticationAttempts get() = authenticationAttemptLimit?.minus(
+        failedAuthenticationAttempts
+    )
 
-    private val _loginResultStream = MutableSharedFlow<Result<Boolean>>()
-    val loginResultStream = _loginResultStream.asSharedFlow()
+    private val _deleteDataResultStream = MutableSharedFlow<Result<Boolean>>()
+    val deleteDataResultStream = _deleteDataResultStream.asSharedFlow()
+
+    private val _passwordLoginResultStream = MutableSharedFlow<Result<Boolean>>()
+    val passwordLoginResultStream = _passwordLoginResultStream.asSharedFlow()
 
     private val _uiState = MutableStateFlow(LoginScreenUiState())
     val uiState = _uiState.combine(getIsAuthenticatedStreamUseCase()) { uiState, isAuthenticated ->
@@ -66,8 +72,8 @@ constructor(
 
     fun logInWithPassword() {
         viewModelScope.launch {
-            _loginResultStream.emit(Result.Loading)
-            _loginResultStream.emit(logInWithPasswordUseCase(uiState.value.passwordInput))
+            _passwordLoginResultStream.emit(Result.Loading)
+            _passwordLoginResultStream.emit(logInWithPasswordUseCase(uiState.value.passwordInput))
         }
     }
 
@@ -79,7 +85,10 @@ constructor(
     }
 
     fun deleteAllData() {
-        // TODO Delete all notes and settings
+        viewModelScope.launch {
+            _deleteDataResultStream.emit(Result.Loading)
+            _deleteDataResultStream.emit(deleteDataUseCase())
+        }
     }
 
     private fun getAuthenticationData() {
@@ -89,7 +98,7 @@ constructor(
                 failedAuthenticationAttempts = failedAuthAttempts
                 _uiState.value = uiState.value.copy(
                     isBiometricLoginEnabled = isBiometricLoginEnabled,
-                    isScreenLockLoginEnabled = isScreenLockLoginEnabled,
+                    isScreenLockLoginEnabled = isScreenLockLoginEnabled
                 )
             }
         }

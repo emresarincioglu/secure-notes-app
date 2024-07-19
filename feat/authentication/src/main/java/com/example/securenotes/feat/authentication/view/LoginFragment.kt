@@ -66,7 +66,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
         setupViews()
         observeUiState()
-        observeLoginResult()
+        observeActionResults()
 
         return binding.root
     }
@@ -100,11 +100,19 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun observeLoginResult() {
+    private fun observeActionResults() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.loginResultStream.collect { result ->
 
+                launch {
+                    loginViewModel.deleteDataResultStream.collect { result ->
+                        if (result == Result.Success(true)) {
+                            findNavController().navigate(R.id.action_loginFragment_to_homeGraph)
+                        }
+                    }
+                }
+
+                loginViewModel.passwordLoginResultStream.collect { result ->
                     when (result) {
                         is Result.Success -> {
                             binding.piLogin.hide()

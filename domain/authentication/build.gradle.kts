@@ -45,6 +45,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":core:common"))
-    implementation(project(":data:authentication"))
+    implementation(project(":data:home"))
     implementation(project(":data:settings"))
+    implementation(project(":data:authentication"))
 }

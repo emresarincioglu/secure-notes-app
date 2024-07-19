@@ -1,7 +1,9 @@
 package com.example.securenotes.domain.authentication.di
 
 import com.example.securenotes.data.authentication.repository.AuthenticationRepository
+import com.example.securenotes.data.home.repository.NoteRepository
 import com.example.securenotes.data.settings.SettingsRepository
+import com.example.securenotes.domain.authentication.DeleteDataUseCase
 import com.example.securenotes.domain.authentication.GetAuthenticationDataUseCase
 import com.example.securenotes.domain.authentication.GetIsAuthenticatedStreamUseCase
 import com.example.securenotes.domain.authentication.IsPasswordCreatedUseCase
@@ -66,5 +68,15 @@ object AuthenticationDomainModule {
         settingsRepository: SettingsRepository
     ): GetAuthenticationDataUseCase {
         return GetAuthenticationDataUseCase(authenticationRepository, settingsRepository)
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun provideDeleteDataUseCase(
+        noteRepository: NoteRepository,
+        settingsRepository: SettingsRepository,
+        authenticationRepository: AuthenticationRepository
+    ): DeleteDataUseCase {
+        return DeleteDataUseCase(noteRepository, settingsRepository, authenticationRepository)
     }
 }

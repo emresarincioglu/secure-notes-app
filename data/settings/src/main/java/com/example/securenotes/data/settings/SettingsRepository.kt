@@ -18,4 +18,6 @@ interface SettingsRepository {
     suspend fun setAuthenticationAttemptLimit(limit: Int?)
 
     suspend fun setSessionTimeout(timeout: Int)
+
+    suspend fun deleteSettings()
 }

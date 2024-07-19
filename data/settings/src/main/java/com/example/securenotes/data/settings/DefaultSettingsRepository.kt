@@ -41,4 +41,6 @@ constructor(private val localDataSource: SettingsDataSource) : SettingsRepositor
      */
     override suspend fun setSessionTimeout(@IntRange(from = 1) timeout: Int) =
         localDataSource.setPreference(AUTH_SESSION_TIMEOUT_KEY, timeout)
+
+    override suspend fun deleteSettings() = localDataSource.deleteSettings()
 }
