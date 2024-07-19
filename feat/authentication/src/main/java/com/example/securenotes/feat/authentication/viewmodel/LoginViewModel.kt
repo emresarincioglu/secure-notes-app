@@ -3,6 +3,7 @@ package com.example.securenotes.feat.authentication.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.securenotes.core.common.Result
+import com.example.securenotes.domain.authentication.DeleteDataUseCase
 import com.example.securenotes.domain.authentication.GetAuthenticationDataUseCase
 import com.example.securenotes.domain.authentication.GetIsAuthenticatedStreamUseCase
 import com.example.securenotes.domain.authentication.LogInWithPasswordUseCase

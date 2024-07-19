@@ -102,6 +102,8 @@ constructor(
     override suspend fun setFailedAuthenticationAttempts(@IntRange(from = 0) count: Int) =
         localDataSource.setPreference(FAILED_AUTH_ATTEMPTS_KEY, count)
 
+    override suspend fun deleteAuthenticationSettings() = localDataSource.deleteSettings()
+
     /**
      * @param endTime Authentication session end time as epoch millis. If null, deletes entry.
      */

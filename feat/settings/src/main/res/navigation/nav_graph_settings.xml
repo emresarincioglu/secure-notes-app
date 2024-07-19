@@ -13,5 +13,15 @@
             android:name="show_password_dialog"
             app:argType="boolean"
             android:defaultValue="false" />
+
+        <action
+            android:id="@+id/action_settingsFragment_to_homeGraph"
+            app:destination="@id/nav_graph_home"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/nav_graph_home"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

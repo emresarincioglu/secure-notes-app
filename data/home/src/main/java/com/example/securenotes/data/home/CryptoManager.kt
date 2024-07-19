@@ -172,8 +172,7 @@ object CryptoManager {
      */
     private fun createSecretKey(): SecretKey {
         val keyGenSpec = KeyGenParameterSpec.Builder(
-            KEY_ALIAS,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         ).setBlockModes(BLOCK_MODE)
             .setEncryptionPaddings(PADDING)
             .setKeySize(KEY_SIZE)
@@ -187,9 +186,8 @@ object CryptoManager {
     }
 
     private fun createIv(): ByteArray {
-        val secureRandom = SecureRandom()
         val iv = ByteArray(IV_SIZE)
-        secureRandom.nextBytes(iv)
+        SecureRandom().nextBytes(iv)
         return iv
     }
 

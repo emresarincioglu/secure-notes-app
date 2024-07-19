@@ -158,7 +158,9 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                     }
                 }
 
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
                     super.onAuthenticationSucceeded(result)
                     loginViewModel.logInWithBiometric()
                 }

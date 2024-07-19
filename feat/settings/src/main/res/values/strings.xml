@@ -7,6 +7,7 @@
     <string name="biometric_title">Biometric login</string>
     <string name="screen_lock_title">Screen lock login</string>
     <string name="log_out_title">Log out</string>
+    <string name="attempt_limit_title">Login attempt limit</string>
     <string name="session_timeout_title">Session timeout</string>
 
     <!-- Summaries -->
@@ -19,11 +20,22 @@
 
     <!-- Dialogs -->
     <eat-comment />
-    <string name="dialog_attempt_limit_title">Login attempt limit</string>
-    <string name="dialog_log_out_title">Log out</string>
     <string name="dialog_log_out_message">Are you sure? You will not be able to access your notes until you log in.</string>
 
     <!-- Common words -->
     <eat-comment />
     <string name="minutes">minutes</string>
+
+    <!-- Hints -->
+    <eat-comment />
+    <string name="et_current_password_hint">Current password</string>
+    <string name="et_new_password_hint">New password</string>
+
+    <!-- Errors -->
+    <eat-comment />
+    <string name="error_password_incorrect">Password is incorrect.</string>
+    <string name="error_current_password_invalid_format">Current password is in invalid format.</string>
+    <string name="error_new_password_invalid_format">New password is in invalid format.</string>
+    <string name="error_password_could_not_changed">Password could not changed.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
 </resources>

@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:enabled="@{viewModel.uiState.passwordCreated}"
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:paddingVertical="16dp"
@@ -64,7 +64,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="16dp"
                     android:layout_toStartOf="@id/sw_biometric"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@string/biometric_title"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
@@ -75,17 +75,17 @@
                     android:layout_alignStart="@id/tv_biometric_title"
                     android:layout_alignEnd="@id/tv_biometric_title"
                     android:layout_marginTop="4dp"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@string/biometric_summary" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/sw_biometric"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@={viewModel.uiState.biometricEnabled}"
                     android:layout_alignParentEnd="true"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
-                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setBiometricLogin(isChecked)}" />
+                    android:checked="@={viewModel.uiState.biometricAuthEnabled}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
+                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setBiometricAuthentication(isChecked)}" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:enabled="@{viewModel.uiState.passwordCreated}"
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:paddingVertical="16dp"
@@ -108,7 +108,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="16dp"
                     android:layout_toStartOf="@id/sw_screen_lock"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@string/screen_lock_title"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
@@ -119,7 +119,7 @@
                     android:layout_alignStart="@id/tv_screen_lock_title"
                     android:layout_alignEnd="@id/tv_screen_lock_title"
                     android:layout_marginTop="4dp"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@string/screen_lock_summary" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -127,9 +127,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:checked="@={viewModel.uiState.screenLockEnabled}"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
-                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setScreenLockLogin(isChecked)}" />
+                    android:checked="@={viewModel.uiState.screenLockAuthEnabled}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
+                    android:onCheckedChanged="@{(sw, isChecked) -> viewModel.setScreenLockAuthentication(isChecked)}" />
             </RelativeLayout>
 
             <TextView
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:enabled="@{viewModel.uiState.passwordCreated}"
                 android:focusable="true"
                 android:paddingVertical="16dp"
                 android:paddingStart="@dimen/screen_space_start"
@@ -158,6 +158,7 @@
                 android:textColor="?colorSecondary"
                 tools:textColor="@android:color/holo_blue_dark" />
 
+            <!-- TODO Add limit exceed action setting -->
             <LinearLayout
                 android:id="@+id/ll_attempt_limit"
                 android:layout_width="match_parent"
@@ -165,7 +166,7 @@
                 android:layout_marginTop="12dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:enabled="@{viewModel.uiState.passwordCreated}"
                 android:focusable="true"
                 android:orientation="vertical"
                 android:paddingVertical="16dp"
@@ -175,16 +176,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
-                    android:text="@string/dialog_attempt_limit_title"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
+                    android:text="@string/attempt_limit_title"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
-                    android:text="@{viewModel.uiState.loginAttemptLimit == 0 ? @string/default_summary : @string/attempt_limit_summary(viewModel.uiState.loginAttemptLimit)}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
+                    android:text="@{viewModel.uiState.authenticationAttemptLimit == null ? @string/default_summary : @string/attempt_limit_summary(viewModel.uiState.authenticationAttemptLimit)}"
                     tools:text="Not set" />
             </LinearLayout>
 
@@ -194,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
-                android:enabled="@{viewModel.uiState.passwordAvailable}"
+                android:enabled="@{viewModel.uiState.passwordCreated}"
                 android:focusable="true"
                 android:orientation="vertical"
                 android:paddingVertical="16dp"
@@ -204,7 +205,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@string/session_timeout_title"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
@@ -212,10 +213,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:enabled="@{viewModel.uiState.passwordAvailable}"
+                    android:enabled="@{viewModel.uiState.passwordCreated}"
                     android:text="@{@string/session_timeout_summary(viewModel.uiState.sessionTimeout)}"
                     tools:text="1 minute" />
             </LinearLayout>
+            <!-- TODO Add delete notes setting -->
         </LinearLayout>
     </ScrollView>
 </layout>

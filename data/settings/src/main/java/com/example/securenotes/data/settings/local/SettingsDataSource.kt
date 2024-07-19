@@ -58,4 +58,10 @@ class SettingsDataSource @Inject constructor(
             preferences.remove(key)
         }
     }
+
+    suspend fun deleteSettings() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
 }
